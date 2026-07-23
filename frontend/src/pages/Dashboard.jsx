@@ -56,23 +56,19 @@ export default function Dashboard() {
       current_cycle_used: data.cycleHours,
     };
     try {
-      const response = await fetch('/api/routes/calculate/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      const result = await response.json();
-      if (!response.ok) {
-        setToastMessage('Routing failed: ' + (result.error || 'Unknown error'));
-        return;
-      }
+      const response = await client.post('/routes/calculate/', payload);
+      const result = response.data;
       setRouteData({
         routeGeoJSON: result.routeGeoJSON,
         events: result.events,
         dailyLogs: result.dailyLogs || [],
       });
     } catch (error) {
-      console.error('Error:', error);
+      if (error.response) {
+        setToastMessage('Routing failed: ' + (error.response.data.error || 'Unknown error'));
+      } else {
+        console.error('Error:', error);
+      }
     } finally {
       clearTimeout(t1);
       clearTimeout(t2);

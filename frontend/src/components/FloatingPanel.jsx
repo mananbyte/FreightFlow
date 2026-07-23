@@ -4,13 +4,21 @@ import LocationAutocomplete from './LocationAutocomplete';
 import './FloatingPanel.css';
 
 export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLoggedIn, isLoading, onError }) {
-  const [current, setCurrent] = useState(() => JSON.parse(localStorage.getItem('ff_current') || '[]'));
+  const getSafeStorage = (key) => {
+    try {
+      return JSON.parse(localStorage.getItem(key) || '[]');
+    } catch {
+      return [];
+    }
+  };
+
+  const [current, setCurrent] = useState(() => getSafeStorage('ff_current'));
   const [currentName, setCurrentName] = useState(() => localStorage.getItem('ff_currentName') || '');
   
-  const [pickup, setPickup] = useState(() => JSON.parse(localStorage.getItem('ff_pickup') || '[]'));
+  const [pickup, setPickup] = useState(() => getSafeStorage('ff_pickup'));
   const [pickupName, setPickupName] = useState(() => localStorage.getItem('ff_pickupName') || '');
   
-  const [dropoff, setDropoff] = useState(() => JSON.parse(localStorage.getItem('ff_dropoff') || '[]'));
+  const [dropoff, setDropoff] = useState(() => getSafeStorage('ff_dropoff'));
   const [dropoffName, setDropoffName] = useState(() => localStorage.getItem('ff_dropoffName') || '');
   
   const [cycleHours, setCycleHours] = useState(() => localStorage.getItem('ff_cycleHours') || 0);
