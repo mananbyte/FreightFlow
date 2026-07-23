@@ -26,28 +26,72 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   text-decoration: none;
   flex-shrink: 0;
   transition: opacity 0.2s;
 }
 
 .navbar-logo:hover {
-  opacity: 0.8;
+  opacity: 0.85;
 }
 
-.logo-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 46px;
-  height: 34px;
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(0, 122, 255, 0.15);
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 122, 255, 0.15);
+/* The truck SVG itself — no box wrapper */
+.logo-truck {
   flex-shrink: 0;
-  padding: 0 4px;
+  filter: drop-shadow(0 2px 6px rgba(0, 122, 255, 0.30));
+  transition: filter 0.3s ease;
+}
+
+.navbar-logo:hover .logo-truck {
+  filter: drop-shadow(0 4px 12px rgba(0, 122, 255, 0.50));
+}
+
+/* Spinning wheels */
+.wheel {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: spin-wheel 1.4s linear infinite;
+}
+
+.front-wheel {
+  animation-delay: 0s;
+}
+
+.rear-wheel {
+  animation-delay: -0.3s;
+}
+
+@keyframes spin-wheel {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* Speed lines — fade in and out */
+.speed-line {
+  animation: speed-pulse 1.6s ease-in-out infinite;
+  transform-origin: right center;
+}
+
+.sl1 { animation-delay: 0s;    }
+.sl2 { animation-delay: 0.2s;  }
+.sl3 { animation-delay: 0.4s;  }
+
+@keyframes speed-pulse {
+  0%,100% { opacity: 0.15; transform: scaleX(0.6); }
+  50%      { opacity: 1;    transform: scaleX(1); }
+}
+
+/* Exhaust puffs */
+.puff {
+  animation: puff-rise 2s ease-in-out infinite;
+}
+.p1 { animation-delay: 0s; }
+.p2 { animation-delay: 0.6s; }
+
+@keyframes puff-rise {
+  0%   { opacity: 0.6; transform: translateY(0) scale(1); }
+  100% { opacity: 0;   transform: translateY(-4px) scale(1.8); }
 }
 
 .logo-text {
