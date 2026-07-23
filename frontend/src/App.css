@@ -119,6 +119,7 @@ body {
 .form-field {
   display: flex;
   flex-direction: column;
+  justify-content: flex-end;
   gap: 6px;
   flex: 1;
 }
