@@ -105,6 +105,9 @@ export default function Dashboard() {
         route_geojson: routeData.routeGeoJSON || {},
       });
       setShowSaveModal(false);
+      setToastMessage('Trip saved successfully!');
+      setRouteData({ routeGeoJSON: null, events: [], dailyLogs: [] });
+      window.dispatchEvent(new Event('trip-saved'));
     } catch (err) {
       console.error(err);
       setToastMessage('Failed to save trip');

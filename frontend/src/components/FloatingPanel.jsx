@@ -36,6 +36,21 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
     localStorage.setItem('ff_startTime', startTime);
   }, [current, currentName, pickup, pickupName, dropoff, dropoffName, cycleHours, startTime]);
 
+  useEffect(() => {
+    const handleTripSaved = () => {
+      setCurrent([]);
+      setCurrentName('');
+      setPickup([]);
+      setPickupName('');
+      setDropoff([]);
+      setDropoffName('');
+      setCycleHours(0);
+      setStartTime('');
+    };
+    window.addEventListener('trip-saved', handleTripSaved);
+    return () => window.removeEventListener('trip-saved', handleTripSaved);
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!current.length || !pickup.length || !dropoff.length) {
