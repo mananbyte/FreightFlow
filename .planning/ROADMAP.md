@@ -33,3 +33,14 @@
 - Add loading states, error handling, and smooth transitions.
 - Test end-to-end flow to verify accuracy of calculations and visualization.
 - Verify production deployment works correctly and prepare codebase for final GitHub sharing.
+
+## Phase 6: User Management and Trip Saving
+**Goal:** Add full user authentication and trip persistence so drivers can save, revisit, and manage all their calculated routes.
+- Implement JWT-based authentication (register, login, logout) using Django SimpleJWT.
+- Create a `Trip` model to store the full ELD event list and daily logs per user.
+- Build REST API endpoints: save trip, list trips, fetch trip detail, delete trip.
+- Create a premium **My Trips** dashboard page: card-based grid of saved trips with route summary, date, and log days count.
+- Add **Create Trip** flow: map → calculate → name & save trip.
+- Protect all trip endpoints and frontend routes behind auth guards.
+- Implement persistent login via localStorage JWT with automatic token refresh.
+
