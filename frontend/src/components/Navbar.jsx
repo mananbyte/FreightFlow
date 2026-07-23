@@ -38,27 +38,27 @@ export default function Navbar() {
         {/* Truck SVG */}
         <svg width="22" height="22" viewBox="0 0 36 24" fill="none" xmlns="http://www.w3.org/2000/svg">
           {/* Trailer / cargo box */}
-          <rect x="0" y="3" width="20" height="13" rx="2" fill="rgba(255,255,255,0.9)"/>
+          <rect x="0" y="3" width="20" height="13" rx="2" fill="#007AFF"/>
           {/* Cab */}
-          <path d="M20 7 L20 16 L32 16 L32 10 L28 3 L22 3 L20 7Z" fill="rgba(255,255,255,0.9)"/>
+          <path d="M20 7 L20 16 L32 16 L32 10 L28 3 L22 3 L20 7Z" fill="#007AFF"/>
           {/* Windshield */}
-          <path d="M22.5 4.5 L27.5 4.5 L30.5 9.5 L22.5 9.5 Z" fill="rgba(0,122,255,0.5)"/>
+          <path d="M22.5 4.5 L27.5 4.5 L30.5 9.5 L22.5 9.5 Z" fill="rgba(0,122,255,0.25)"/>
           {/* Connector between cab and trailer */}
-          <rect x="19" y="8" width="3" height="5" fill="rgba(255,255,255,0.6)"/>
+          <rect x="19" y="8" width="3" height="5" fill="#0056CC"/>
           {/* Exhaust stack */}
-          <rect x="29" y="1" width="2" height="4" rx="1" fill="rgba(255,255,255,0.7)"/>
+          <rect x="29" y="1" width="2" height="4" rx="1" fill="#005DC7"/>
           {/* Front wheel */}
-          <circle cx="27" cy="17.5" r="3" fill="rgba(255,255,255,0.3)" stroke="white" strokeWidth="1.5"/>
-          <circle cx="27" cy="17.5" r="1.2" fill="white"/>
-          {/* Rear wheel (dual) */}
-          <circle cx="8" cy="17.5" r="3" fill="rgba(255,255,255,0.3)" stroke="white" strokeWidth="1.5"/>
-          <circle cx="8" cy="17.5" r="1.2" fill="white"/>
+          <circle cx="27" cy="17.5" r="3" fill="#0056CC" stroke="#003D99" strokeWidth="1"/>
+          <circle cx="27" cy="17.5" r="1.2" fill="#CCE0FF"/>
+          {/* Rear wheel */}
+          <circle cx="8" cy="17.5" r="3" fill="#0056CC" stroke="#003D99" strokeWidth="1"/>
+          <circle cx="8" cy="17.5" r="1.2" fill="#CCE0FF"/>
           {/* Road / ground line */}
-          <line x1="0" y1="21" x2="36" y2="21" stroke="rgba(255,255,255,0.4)" strokeWidth="1.5" strokeLinecap="round"/>
+          <line x1="0" y1="21" x2="36" y2="21" stroke="rgba(0,122,255,0.25)" strokeWidth="1.5" strokeLinecap="round"/>
           {/* Headlight */}
           <rect x="31" y="11" width="2" height="2" rx="0.5" fill="#FFD60A"/>
           {/* Trailer door lines */}
-          <line x1="10" y1="3" x2="10" y2="16" stroke="rgba(0,122,255,0.3)" strokeWidth="1"/>
+          <line x1="10" y1="3" x2="10" y2="16" stroke="rgba(255,255,255,0.5)" strokeWidth="1"/>
         </svg>
       </div>
         <span className="logo-text">FreightFlow</span>
