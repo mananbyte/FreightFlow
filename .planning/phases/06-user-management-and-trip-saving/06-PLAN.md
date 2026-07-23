@@ -131,13 +131,15 @@ files_modified: [frontend/src/api/axiosInstance.js, frontend/src/context/AuthCon
 1. Create `frontend/src/api/axiosInstance.js`:
    - Axios instance with `baseURL: 'http://127.0.0.1:8000'`
    - Request interceptor: read `localStorage.getItem('spotter_access')`, set `Authorization: Bearer <token>` header
-   - Response interceptor: on 401, call `POST /api/token/refresh/` with `{refresh: localStorage.getItem('spotter_refresh')}`, on success save new access token to localStorage and retry the original request with new token; on failure clear localStorage and redirect to `/login`
+   - Response interceptor: on 401, call `POST /api/token/refresh/` with `{refresh: localStorage.getItem('spotter_refresh')}`, on success save new access token to localStorage and retry the original request with new token; on failure clear localStorage and trigger a global "Session Expired" modal state (do not abruptly redirect)
 2. Create `frontend/src/context/AuthContext.jsx`:
-   - Context with `user` (null or decoded JWT payload), `accessToken`, `isAuthenticated` (bool)
+   - Context with `user` (null or decoded JWT payload), `accessToken`, `isAuthenticated` (bool), and `showSessionExpiredModal` (bool)
    - `login(email, password)`: POST to `/api/token/`, save both tokens to localStorage under `spotter_access` and `spotter_refresh`, decode access token with `jwt-decode` to set user state
    - `logout()`: clear localStorage keys `spotter_access` and `spotter_refresh`, reset state
    - On mount: check localStorage for existing valid tokens; if found, restore state
-3. Wrap `<App />` in `<AuthProvider>` in `frontend/src/main.jsx`
+3. Create `frontend/src/components/SessionExpiredModal.jsx`:
+   - A blocking modal overlay (`z-index: 9999`) containing a mini login form that calls `login()`. On success, dismisses the modal and lets the user continue exactly where they were.
+4. Wrap `<App />` in `<AuthProvider>` in `frontend/src/main.jsx`, and render `<SessionExpiredModal>` inside App if `showSessionExpiredModal` is true.
 </action>
 <acceptance_criteria>
 - `frontend/src/api/axiosInstance.js` exists and exports a default Axios instance
@@ -196,9 +198,8 @@ files_modified: [frontend/src/pages/Login.jsx, frontend/src/pages/Login.css, fro
    - Fields: Email, Password (controlled inputs)
    - "Sign In" button with `--primary` blue styling and hover lift effect
    - "Continue as Guest" button (secondary/outline styling) that navigates to `/create-trip`
-   - Error message display (red, beneath button) on failed login
    - Link to `/register`
-   - On submit: calls `login(email, password)` from useAuth; on success navigate to `/dashboard`
+   - On submit: calls `login(email, password)` from useAuth; on success navigate to `/dashboard` (unless they came from clicking "Sign in to save", in which case return them to `/create-trip` and automatically POST their pending trip to `/api/trips/`)
 2. Create `frontend/src/pages/Login.css` with glassmorphism card:
    - Card: `background: rgba(255,255,255,0.25)`, `backdrop-filter: blur(40px)`, `border-radius: 24px`, `border: 1px solid rgba(255,255,255,0.5)`, `box-shadow: var(--shadow-lg)`, padding `48px`
    - Input styles matching App.css (white bg, soft border, focus glow)
@@ -278,11 +279,12 @@ files_modified: [frontend/src/components/FloatingPanel.jsx, frontend/src/compone
 <action>
 1. In `FloatingPanel.jsx`, check `isAuthenticated` from `useAuth()`
    - After a successful route calculation (when the success banner is shown):
-   - If `isAuthenticated`: Render a text input "Trip Name" (placeholder: e.g., "Chicago → Denver Run") and a "Save Trip" button
+   - If `isAuthenticated`: Render a text input "Trip Name" and a "Save Trip" button
+     - Pre-fill the input with an auto-generated name: e.g. `{pickup_city} → {dropoff_city} ({Month} {Day})`
      - On save: POST to `/api/trips/` via axiosInstance with body...
      - On success: show a small inline "✓ Trip saved!" confirmation message in green; button becomes disabled
      - On error: show "Failed to save"
-   - If `!isAuthenticated`: Render a "Sign in to save your trips" message with a button linking to `/login`
+   - If `!isAuthenticated`: Render a "Sign in to save your trips" message with a button linking to `/login`. Before navigating to `/login`, save the current `routeData` and `inputs` to `sessionStorage` so they can be automatically saved after authentication.
 2. Style the save section in `FloatingPanel.css`:
    - `save-trip-section`: subtle separator line on top, padding-top 16px
    - Trip name input: matching existing glass input style
