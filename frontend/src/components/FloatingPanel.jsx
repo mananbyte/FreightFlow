@@ -25,6 +25,8 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
   const [startTime, setStartTime] = useState(() => localStorage.getItem('ff_startTime') || '');
   const navigate = useNavigate();
 
+  const [resetKey, setResetKey] = useState(0);
+
   useEffect(() => {
     localStorage.setItem('ff_current', JSON.stringify(current));
     localStorage.setItem('ff_currentName', currentName);
@@ -46,6 +48,7 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
       setDropoffName('');
       setCycleHours(0);
       setStartTime('');
+      setResetKey(prev => prev + 1);
     };
     window.addEventListener('trip-saved', handleTripSaved);
     return () => window.removeEventListener('trip-saved', handleTripSaved);
@@ -70,18 +73,21 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
       </div>
       <form onSubmit={handleSubmit} className="panel-form">
         <LocationAutocomplete 
+          key={`current-${resetKey}`}
           label="Current Location" 
           placeholder="e.g., Seattle, WA" 
           initialQuery={currentName}
           onLocationSelect={(coords, name) => { setCurrent(coords); setCurrentName(name); }} 
         />
         <LocationAutocomplete 
+          key={`pickup-${resetKey}`}
           label="Pickup Location" 
           placeholder="e.g., Portland, OR" 
           initialQuery={pickupName}
           onLocationSelect={(coords, name) => { setPickup(coords); setPickupName(name); }} 
         />
         <LocationAutocomplete 
+          key={`dropoff-${resetKey}`}
           label="Dropoff Location" 
           placeholder="e.g., Los Angeles, CA" 
           initialQuery={dropoffName}
