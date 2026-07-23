@@ -103,12 +103,13 @@ class Trip(models.Model):
 / (index)              → redirect: if auth → /dashboard, else → /login
 /login                 → Login page (public)
 /register              → Register page (public)
+/create-trip           → Route calculator + map (public, guests can access)
 /dashboard             → My Trips page (protected)
-/create-trip           → Route calculator + map (protected)
 /trips/:id/logs        → ELD log sheet for saved trip (protected)
 ```
 
 **ProtectedRoute component:** checks `localStorage` for valid JWT token. If missing/expired → redirects to `/login`.
+**Guest Flow:** The login page includes a "Continue as Guest" link to `/create-trip`. Unauthenticated users can calculate routes, but the "Save Trip" button prompts them to sign in.
 
 ---
 

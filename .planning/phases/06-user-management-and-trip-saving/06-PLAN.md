@@ -15,8 +15,9 @@ status: planned
 - [ ] All trip API endpoints return 401 for unauthenticated requests
 - [ ] A calculated route can be saved with a name; it persists in the database
 - [ ] `/dashboard` shows a card grid of all saved trips for the logged-in user
-- [ ] Clicking "View Logs" on a trip card loads the ELD log sheet for that trip
-- [ ] Unauthenticated users visiting `/dashboard` or `/create-trip` are redirected to `/login`
+- [ ] Unauthenticated users clicking "Continue as Guest" can access `/create-trip` to calculate routes
+- [ ] Unauthenticated users are prompted to "Sign in to save" after route calculation
+- [ ] Unauthenticated users visiting `/dashboard` are redirected to `/login`
 - [ ] Logout clears tokens and redirects to `/login`
 
 ---
@@ -165,9 +166,9 @@ files_modified: [frontend/src/components/ProtectedRoute.jsx, frontend/src/App.js
    - If `isAuthenticated` is false: return `<Navigate to="/login" replace />`
    - Otherwise: return `<Outlet />`
 2. Update `frontend/src/App.jsx` routes:
-   - Public: `/login` → `<Login />`, `/register` → `<Register />`
-   - Protected (wrapped in `<ProtectedRoute>`): `/dashboard` → `<MyTrips />`, `/create-trip` → existing Dashboard/map page, `/trips/:id/logs` → `<DriverLog />`
-   - Default `/` → `<Navigate to="/dashboard" replace />`
+   - Public: `/login` → `<Login />`, `/register` → `<Register />`, `/create-trip` → existing Dashboard/map page
+   - Protected (wrapped in `<ProtectedRoute>`): `/dashboard` → `<MyTrips />`, `/trips/:id/logs` → `<DriverLog />`
+   - Default `/` → `<Navigate to="/dashboard" replace />` (will redirect to login if not auth'd)
 </action>
 <acceptance_criteria>
 - `frontend/src/components/ProtectedRoute.jsx` exists and uses `useAuth().isAuthenticated`
@@ -194,6 +195,7 @@ files_modified: [frontend/src/pages/Login.jsx, frontend/src/pages/Login.css, fro
    - Centered glass card on the gradient background
    - Fields: Email, Password (controlled inputs)
    - "Sign In" button with `--primary` blue styling and hover lift effect
+   - "Continue as Guest" button (secondary/outline styling) that navigates to `/create-trip`
    - Error message display (red, beneath button) on failed login
    - Link to `/register`
    - On submit: calls `login(email, password)` from useAuth; on success navigate to `/dashboard`
@@ -274,12 +276,13 @@ files_modified: [frontend/src/components/FloatingPanel.jsx, frontend/src/compone
 - frontend/src/api/axiosInstance.js
 </read_first>
 <action>
-1. In `FloatingPanel.jsx`, after a successful route calculation (when the success banner is shown):
-   - Add a "Save Trip" section below the "View ELD Log Sheet" button
-   - Render a text input "Trip Name" (placeholder: e.g., "Chicago → Denver Run") and a "Save Trip" button
-   - On save: POST to `/api/trips/` via axiosInstance with body: `{name, current_location: inputs.current, pickup: inputs.pickup, dropoff: inputs.dropoff, start_time: inputs.startTime, cycle_hours_used: inputs.cycleHours, cycle_limit: 70, events_json: routeData.events, daily_logs_json: routeData.dailyLogs}`
-   - On success: show a small inline "✓ Trip saved!" confirmation message in green; button becomes disabled
-   - On error: show "Failed to save. Are you logged in?" in red
+1. In `FloatingPanel.jsx`, check `isAuthenticated` from `useAuth()`
+   - After a successful route calculation (when the success banner is shown):
+   - If `isAuthenticated`: Render a text input "Trip Name" (placeholder: e.g., "Chicago → Denver Run") and a "Save Trip" button
+     - On save: POST to `/api/trips/` via axiosInstance with body...
+     - On success: show a small inline "✓ Trip saved!" confirmation message in green; button becomes disabled
+     - On error: show "Failed to save"
+   - If `!isAuthenticated`: Render a "Sign in to save your trips" message with a button linking to `/login`
 2. Style the save section in `FloatingPanel.css`:
    - `save-trip-section`: subtle separator line on top, padding-top 16px
    - Trip name input: matching existing glass input style
