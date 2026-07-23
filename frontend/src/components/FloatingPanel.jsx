@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LocationAutocomplete from './LocationAutocomplete';
 import './FloatingPanel.css';
 
-export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLoggedIn, isLoading }) {
+export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLoggedIn, isLoading, onError }) {
   const [current, setCurrent] = useState(() => JSON.parse(localStorage.getItem('ff_current') || '[]'));
   const [currentName, setCurrentName] = useState(() => localStorage.getItem('ff_currentName') || '');
   
@@ -31,7 +31,8 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!current.length || !pickup.length || !dropoff.length) {
-      alert("Please select valid locations from the dropdowns.");
+      if (onError) onError("Please select valid locations from the dropdowns.");
+      else alert("Please select valid locations from the dropdowns.");
       return;
     }
     onSubmit({ current, pickup, dropoff, cycleHours, startTime });

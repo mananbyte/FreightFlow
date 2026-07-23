@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import FloatingPanel from '../components/FloatingPanel';
 import MapComponent from '../components/MapComponent';
+import Toast from '../components/Toast';
 import client from '../api/client';
 import './Dashboard.css';
 
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
   const [loadingText, setLoadingText] = useState('');
+  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const sync = () => setIsLoggedIn(!!localStorage.getItem('access_token'));
@@ -61,7 +63,7 @@ export default function Dashboard() {
       });
       const result = await response.json();
       if (!response.ok) {
-        alert('Routing failed: ' + (result.error || 'Unknown error'));
+        setToastMessage('Routing failed: ' + (result.error || 'Unknown error'));
         return;
       }
       setRouteData({
@@ -109,7 +111,7 @@ export default function Dashboard() {
       setShowSaveModal(false);
     } catch (err) {
       console.error(err);
-      alert('Failed to save trip');
+      setToastMessage('Failed to save trip');
     } finally {
       setIsSaving(false);
     }
@@ -123,8 +125,10 @@ export default function Dashboard() {
         onSaveTrip={handleSaveClick}
         isLoggedIn={isLoggedIn}
         isLoading={isLoadingRoute}
+        onError={setToastMessage}
       />
       <MapComponent routeGeoJSON={routeData.routeGeoJSON} events={routeData.events} />
+      <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
       {/* Premium Glassmorphic Loading Overlay */}
       {isLoadingRoute && (
