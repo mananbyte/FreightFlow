@@ -190,3 +190,19 @@
 .save-trip-btn:hover svg {
   transform: translateY(-2px);
 }
+
+
+.drag-handle {
+  display: none;
+  width: 48px;
+  height: 5px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  margin: -12px auto 16px;
+}
+
+@media (max-width: 768px) {
+  .drag-handle {
+    display: block;
+  }
+}

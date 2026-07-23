@@ -40,6 +40,7 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
 
   return (
     <div className="floating-panel">
+      <div className="drag-handle"></div>
       <div className="panel-header">
         <h2>Trip Setup</h2>
         <p>Configure your route & ELD constraints</p>
