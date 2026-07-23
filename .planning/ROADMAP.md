@@ -23,7 +23,7 @@
 
 ## Phase 4: ELD Log Sheet Visualization
 **Goal:** Visually draw the ELD daily log sheets based on the calculated events.
-- Create a React component to render the ELD log grid (24-hour timeline with 4 status lines: Off Duty, Sleeper Berth, Driving, On Duty Not Driving).
+- Create a React component to render the ELD log grid (24-hour timeline with 4 status lines: Off Duty, Sleeper Berth, Driving, On Duty Not Driving). This UI must exactly replicate the `blank-paper-log.png` reference image.
 - Draw the line graph dynamically based on the event list generated in Phase 3.
 - Handle pagination or multiple sheets for multi-day trips.
 

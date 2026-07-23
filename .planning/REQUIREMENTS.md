@@ -14,7 +14,7 @@ Route Calculation and ELD Log Generation App
 
 - **Input Form**: Application accepts Current Location, Pickup Location, Dropoff Location, and Current Cycle Used (Hrs).
 - **Map Visualization**: A map is displayed using a free Map API showing the route, along with markers for stops and rest periods.
-- **Log Generation**: The app draws ELD daily log sheets. If the trip is long, it generates multiple daily sheets.
+- **Log Generation**: The app draws ELD daily log sheets. If the trip is long, it generates multiple daily sheets. The drawn log sheets **must exactly match** the reference image provided in `blank-paper-log.png` located in the root repository.
 - **Rules Application**: Assumes 70hrs/8days cycle, 1 hour duration for pickup and 1 hour for drop-off.
 - **Fueling Rules**: Includes fueling stop at least once every 1,000 miles.
 - **Design Excellence**: UI and UX must be extremely good and aesthetically pleasing.
