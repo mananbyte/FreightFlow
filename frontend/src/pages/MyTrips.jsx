@@ -32,6 +32,23 @@ export default function MyTrips() {
     }
   };
 
+  const handleViewMap = async (tripId) => {
+    try {
+      const res = await client.get(`/trips/${tripId}/`);
+      navigate('/', { 
+        state: { 
+          preloadedRoute: {
+            routeGeoJSON: res.data.route_geojson,
+            events: res.data.events_json,
+            dailyLogs: res.data.daily_logs_json
+          } 
+        } 
+      });
+    } catch (err) {
+      alert('Failed to load map data');
+    }
+  };
+
   const handleDelete = async (tripId) => {
     if (!confirm('Delete this trip?')) return;
     try {
@@ -108,8 +125,11 @@ export default function MyTrips() {
               </div>
 
               <div className="trip-actions">
-                <button className="btn-primary" onClick={() => handleViewLog(trip.id)}>
-                  View Log Sheet
+                <button className="btn-primary" onClick={() => handleViewMap(trip.id)}>
+                  View Map
+                </button>
+                <button className="btn-secondary" onClick={() => handleViewLog(trip.id)}>
+                  Log Sheet
                 </button>
                 <button className="btn-delete" onClick={() => handleDelete(trip.id)}>
                   Delete

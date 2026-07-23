@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import FloatingPanel from '../components/FloatingPanel';
 import MapComponent from '../components/MapComponent';
 import client from '../api/client';
 import './Dashboard.css';
 
 export default function Dashboard() {
+  const location = useLocation();
   const [routeData, setRouteData] = useState({ routeGeoJSON: null, events: [], dailyLogs: [] });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showSaveModal, setShowSaveModal] = useState(false);
@@ -18,6 +20,20 @@ export default function Dashboard() {
     window.addEventListener('session-expired', () => setIsLoggedIn(false));
     return () => clearInterval(id);
   }, []);
+
+  // Pre-load route data if navigated from "View Map" in MyTrips
+  useEffect(() => {
+    const preloaded = location.state?.preloadedRoute;
+    if (preloaded) {
+      setRouteData({
+        routeGeoJSON: preloaded.routeGeoJSON,
+        events: preloaded.events,
+        dailyLogs: preloaded.dailyLogs,
+      });
+      // Clear the state so a refresh doesn't re-apply
+      window.history.replaceState({}, '');
+    }
+  }, [location.state]);
 
   const calculateRoute = async (data) => {
     const payload = {
@@ -73,6 +89,7 @@ export default function Dashboard() {
         cycle_hours_used: parseFloat(localStorage.getItem('ff_cycleHours') || 0),
         events_json: routeData.events,
         daily_logs_json: routeData.dailyLogs,
+        route_geojson: routeData.routeGeoJSON || {},
       });
       setShowSaveModal(false);
     } catch (err) {

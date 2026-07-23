@@ -175,7 +175,8 @@
   margin-top: auto;
 }
 
-.trip-actions .btn-primary {
+.trip-actions .btn-primary,
+.trip-actions .btn-secondary {
   flex: 1;
   font-size: 13px;
   padding: 9px 12px;

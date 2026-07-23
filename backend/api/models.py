@@ -13,6 +13,7 @@ class Trip(models.Model):
     cycle_limit = models.IntegerField(default=70)
     events_json = models.JSONField(default=list)
     daily_logs_json = models.JSONField(default=list)
+    route_geojson = models.JSONField(default=dict)
 
     class Meta:
         ordering = ['-created_at']
