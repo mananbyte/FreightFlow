@@ -4,50 +4,61 @@
   position: relative;
 }
 
-.dashboard-header {
-  position: absolute;
-  top: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: auto;
-  min-width: 320px;
-  height: 56px;
-  background: var(--surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
-  border: 1px solid var(--border);
-  border-radius: 28px;
-  box-shadow: var(--shadow-lg);
-  z-index: 2000;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-  gap: 48px;
-  box-sizing: border-box;
+/* Push the floating panel down to clear the navbar (56px tall + 16px top + 12px gap) */
+.floating-panel {
+  top: 96px !important;
 }
 
-.dashboard-header h1 {
-  margin: 0;
-  font-size: 20px;
+/* ── Save Modal ─────────────────────────────────────────────────────────────── */
+.save-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+
+.save-modal-content {
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+}
+
+.save-modal-content h2 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   color: var(--text-main);
 }
 
-.header-status {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 600;
+.modal-sub {
+  margin: 0 0 1.5rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
 }
 
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background-color: var(--primary);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--primary);
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-secondary {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--text-main);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
 }

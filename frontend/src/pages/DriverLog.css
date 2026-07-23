@@ -4,27 +4,28 @@
   align-items: center;
   min-height: 100vh;
   background: var(--bg-gradient);
-  padding: 24px;
+  background-attachment: fixed;
+  padding: 100px 24px 24px;
 }
 
 .empty-card {
-  background: var(--surface);
-  backdrop-filter: var(--glass-blur);
-  -webkit-backdrop-filter: var(--glass-blur);
   padding: 64px 48px;
-  border-radius: 24px;
   text-align: center;
-  box-shadow: var(--shadow-lg);
-  border: 1px solid var(--border);
   max-width: 440px;
 }
 
+.empty-icon {
+  font-size: 48px;
+  margin-bottom: 16px;
+  display: block;
+}
+
 .empty-card h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   letter-spacing: -0.5px;
   color: var(--text-main);
-  margin-bottom: 12px;
+  margin: 0 0 12px;
 }
 
 .empty-card p {
@@ -57,26 +58,35 @@
   min-height: 100vh;
   background: var(--bg-gradient);
   background-attachment: fixed;
-  padding: 80px 40px;
+  padding: 96px 40px 40px;   /* 96px top = navbar (56) + gap (16) + breathing room (24) */
   box-sizing: border-box;
   overflow-y: auto;
+  height: 100vh;   /* allow inner scroll without #root scrolling */
+  position: relative;
+  z-index: 0;
 }
 
 .log-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 40px;
+  align-items: flex-start;
+  margin-bottom: 32px;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
 }
 
 .log-header h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: 700;
   letter-spacing: -1px;
   color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.log-sub {
+  font-size: 14px;
+  color: var(--text-muted);
   margin: 0;
 }
 

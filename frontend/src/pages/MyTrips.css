@@ -1,0 +1,250 @@
+/* ── Page Layout ─────────────────────────────────────────────────────────────── */
+.my-trips-container {
+  min-height: 100vh;
+  height: 100vh;
+  background: var(--bg-gradient);
+  background-attachment: fixed;
+  padding: 96px 40px 48px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  position: relative;
+  z-index: 0;
+}
+
+/* ── Page Header ─────────────────────────────────────────────────────────────── */
+.trips-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  max-width: 1100px;
+  margin: 0 auto 32px;
+}
+
+.trips-page-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -1px;
+  color: var(--text-main);
+  margin: 0 0 4px;
+}
+
+.trips-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.new-route-btn {
+  font-size: 14px !important;
+  padding: 10px 20px !important;
+}
+
+/* ── Trip Grid ───────────────────────────────────────────────────────────────── */
+.trips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── Trip Card ───────────────────────────────────────────────────────────────── */
+.trip-card {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.trip-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.trip-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.trip-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  line-height: 1;
+  margin-top: 2px;
+}
+
+.trip-title-wrap {
+  flex: 1;
+  min-width: 0;
+}
+
+.trip-name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trip-date {
+  font-size: 12px;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* ── Route Visualizer ────────────────────────────────────────────────────────── */
+.trip-route {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.route-point {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.route-point span:last-child {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.route-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.route-dot.origin {
+  background: #34C759;
+  box-shadow: 0 0 6px rgba(52, 199, 89, 0.5);
+}
+
+.route-dot.dest {
+  background: #FF3B30;
+  box-shadow: 0 0 6px rgba(255, 59, 48, 0.5);
+}
+
+.route-line {
+  width: 2px;
+  height: 14px;
+  background: linear-gradient(to bottom, #34C759, #FF3B30);
+  margin-left: 4px;
+  border-radius: 2px;
+  opacity: 0.4;
+}
+
+/* ── Meta Chips ──────────────────────────────────────────────────────────────── */
+.trip-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.meta-chip {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(0, 122, 255, 0.08);
+  border: 1px solid rgba(0, 122, 255, 0.15);
+  color: var(--primary);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 99px;
+}
+
+/* ── Actions ─────────────────────────────────────────────────────────────────── */
+.trip-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.trip-actions .btn-primary {
+  flex: 1;
+  font-size: 13px;
+  padding: 9px 12px;
+}
+
+.btn-delete {
+  background: rgba(255, 59, 48, 0.08);
+  color: #FF3B30;
+  border: 1px solid rgba(255, 59, 48, 0.18);
+  padding: 9px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-delete:hover {
+  background: rgba(255, 59, 48, 0.15);
+}
+
+/* ── Empty State ─────────────────────────────────────────────────────────────── */
+.no-trips {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 56px 40px;
+  text-align: center;
+}
+
+.no-trips-icon {
+  font-size: 52px;
+  display: block;
+  margin-bottom: 16px;
+}
+
+.no-trips h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 10px;
+}
+
+.no-trips p {
+  font-size: 14px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0 0 16px;
+}
+
+/* ── Loading State ───────────────────────────────────────────────────────────── */
+.trips-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  min-height: 60vh;
+  color: var(--text-muted);
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(0, 122, 255, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

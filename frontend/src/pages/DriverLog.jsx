@@ -11,19 +11,15 @@ export default function DriverLog() {
   const tabsRef = useRef(null);
   const thumbRef = useRef(null);
 
-  // Drive the custom scrollbar thumb position/size from the tabs scroll position
   const updateThumb = () => {
     const el = tabsRef.current;
     const thumb = thumbRef.current;
     if (!el || !thumb) return;
-
-    const ratio      = el.clientWidth / el.scrollWidth;        // visible fraction
-    const thumbWidth = Math.max(ratio * 100, 8);               // % width, min 8%
-    const thumbLeft  = (el.scrollLeft / el.scrollWidth) * 100; // % offset
+    const ratio = el.clientWidth / el.scrollWidth;
+    const thumbWidth = Math.max(ratio * 100, 8);
+    const thumbLeft = (el.scrollLeft / el.scrollWidth) * 100;
     thumb.style.width = `${thumbWidth}%`;
-    thumb.style.left  = `${thumbLeft}%`;
-
-    // Hide the scrollbar entirely if all tabs fit without scrolling
+    thumb.style.left = `${thumbLeft}%`;
     thumb.parentElement.style.opacity = ratio >= 1 ? '0' : '1';
   };
 
@@ -39,7 +35,6 @@ export default function DriverLog() {
     };
   }, [dailyLogs]);
 
-  // Auto-scroll the active tab into view
   useEffect(() => {
     const el = tabsRef.current;
     if (!el) return;
@@ -53,10 +48,11 @@ export default function DriverLog() {
   if (!dailyLogs || dailyLogs.length === 0) {
     return (
       <div className="driver-log-empty">
-        <div className="empty-card">
+        <div className="empty-card glass-panel">
+          <div className="empty-icon">📋</div>
           <h2>No Route Calculated</h2>
-          <p>Please calculate a route to view the ELD log sheet.</p>
-          <Link to="/" className="back-link">Return to Dashboard</Link>
+          <p>Go to the dashboard, enter your route, and come back here to view the ELD log sheet.</p>
+          <Link to="/" className="back-link">Go to Dashboard</Link>
         </div>
       </div>
     );
@@ -65,11 +61,13 @@ export default function DriverLog() {
   return (
     <div className="driver-log-container">
       <div className="log-header">
-        <h1>Driver Logs</h1>
-        <Link to="/" className="back-link">Back to Dashboard</Link>
+        <div>
+          <h1>ELD Log Sheet</h1>
+          <p className="log-sub">{dailyLogs.length} {dailyLogs.length === 1 ? 'day' : 'days'} of driving logs</p>
+        </div>
+        <Link to="/" className="back-link">← New Route</Link>
       </div>
 
-      {/* Tabs + custom scrollbar wrapped together */}
       <div className="tabs-wrapper">
         <div className="tabs" ref={tabsRef}>
           {dailyLogs.map((day, index) => (
@@ -82,8 +80,6 @@ export default function DriverLog() {
             </button>
           ))}
         </div>
-
-        {/* Custom gradient scrollbar — only visible when tabs overflow */}
         <div className="tabs-scrollbar">
           <div className="tabs-scrollbar-thumb" ref={thumbRef} />
         </div>
