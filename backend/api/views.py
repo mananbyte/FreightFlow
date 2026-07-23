@@ -9,11 +9,16 @@ from .models import Trip
 from .serializers import RegisterSerializer, TripListSerializer, TripDetailSerializer
 from .eld_formatter import generate_daily_logs
 
+from rest_framework.decorators import api_view, permission_classes
+
 @api_view(['GET'])
+@permission_classes([permissions.AllowAny])
 def health_check(request):
     return Response({"status": "healthy"})
 
 class RouteCalculateView(APIView):
+    permission_classes = [permissions.AllowAny]
+
     def post(self, request):
         start_time = request.data.get('start_time')
         if not start_time:
