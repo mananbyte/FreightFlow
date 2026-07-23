@@ -3,6 +3,10 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 import datetime
 from .eld_engine import simulate_eld_events
+from rest_framework import generics, permissions
+from django.contrib.auth.models import User
+from .models import Trip
+from .serializers import RegisterSerializer, TripListSerializer, TripDetailSerializer
 from .eld_formatter import generate_daily_logs
 
 @api_view(['GET'])
@@ -52,3 +56,29 @@ class RouteCalculateView(APIView):
             "routeGeoJSON": osrm_data,
             "dailyLogs": daily_logs
         })
+
+class RegisterView(generics.CreateAPIView):
+    queryset = User.objects.all()
+    permission_classes = [permissions.AllowAny]
+    serializer_class = RegisterSerializer
+
+class TripListCreateView(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Trip.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return TripDetailSerializer
+        return TripListSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+class TripDetailView(generics.RetrieveDestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    serializer_class = TripDetailSerializer
+
+    def get_queryset(self):
+        return Trip.objects.filter(user=self.request.user)
