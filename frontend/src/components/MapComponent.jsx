@@ -143,7 +143,7 @@ function MapUpdater({ routeGeoJSON, events }) {
   return null;
 }
 
-export default function MapComponent({ routeGeoJSON, events }) {
+function MapComponent({ routeGeoJSON, events }) {
   return (
     <MapContainer
       center={[39.8283, -98.5795]}
@@ -199,5 +199,49 @@ export default function MapComponent({ routeGeoJSON, events }) {
         );
       })}
     </MapContainer>
+  );
+}
+
+const Legend = () => {
+  return (
+    <div style={{
+      position: 'absolute',
+      top: '20px',
+      right: '20px',
+      zIndex: 1000,
+      background: 'rgba(255, 255, 255, 0.25)',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      border: '1px solid rgba(255, 255, 255, 0.4)',
+      borderRadius: '16px',
+      padding: '16px',
+      boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+      fontFamily: 'system-ui, sans-serif',
+      color: '#1F2937',
+      minWidth: '200px'
+    }}>
+      <h3 style={{ margin: '0 0 12px 0', fontSize: '15px', fontWeight: '600' }}>Marker Legend</h3>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+        {Object.entries(EVENT_META).filter(([_, meta]) => meta.show).map(([key, meta]) => (
+          <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span style={{
+              width: '14px', height: '14px', borderRadius: '50%',
+              background: meta.color, flexShrink: 0,
+              boxShadow: `0 0 0 2px white, 0 0 0 3px ${meta.color}`
+            }} />
+            <span style={{ fontSize: '13px', fontWeight: '500' }}>{meta.label}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default function MapComponentWrapper({ routeGeoJSON, events }) {
+  return (
+    <div style={{ position: 'relative', height: '100vh', width: '100vw' }}>
+      <MapComponent routeGeoJSON={routeGeoJSON} events={events} />
+      <Legend />
+    </div>
   );
 }
