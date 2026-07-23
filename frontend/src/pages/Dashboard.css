@@ -4,9 +4,10 @@
   position: relative;
 }
 
-/* Push the floating panel down to clear the navbar (56px tall + 16px top + 12px gap) */
+/* Push the floating panel down to clear the navbar, but keep it high enough to show bottom curves */
 .floating-panel {
-  top: 96px !important;
+  top: 76px !important;
+  max-height: calc(100vh - 92px) !important;
 }
 
 /* ── Save Modal ─────────────────────────────────────────────────────────────── */
