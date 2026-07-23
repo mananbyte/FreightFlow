@@ -11,8 +11,8 @@ const EVENT_META = {
   fuel:             { color: '#F59E0B', label: 'Fuel Stop',          show: true  },
   break_30m:        { color: '#FBBF24', label: '30-Min Break',       show: true  },
   // Sleeper Berth events — blue family
-  rest_2h:          { color: '#60A5FA', label: 'Sleeper 2-Hr Split', show: true  },
-  rest_8h:          { color: '#3B82F6', label: 'Sleeper 8-Hr Split', show: true  },
+  rest_2h:          { color: '#60A5FA', label: 'Sleeper 2-Hr Split', show: false },
+  rest_8h:          { color: '#3B82F6', label: 'Sleeper 8-Hr Split', show: false },
   rest_10h:         { color: '#2563EB', label: '10-Hr Sleeper Rest', show: true  },
   // Cycle reset — purple
   rest_34h:         { color: '#8B5CF6', label: '34-Hr Cycle Reset',  show: true  },
