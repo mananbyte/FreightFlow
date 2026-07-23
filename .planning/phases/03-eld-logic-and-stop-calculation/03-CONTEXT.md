@@ -17,7 +17,7 @@ Backend processing to split the route based on HOS rules and truck constraints, 
 - **D-01:** The backend will return a highly optimized chronological list of events (timestamps, coordinates, event type, distance, duration). The data structure will be explicitly designed using strong DSA principles to efficiently cover all HoS constraints and easily support visualization in Phase 4.
 
 ### Trip Start Time
-- **D-02:** Assume the trip starts "Now" (at the time the calculation is made). This simplifies the UI by not requiring a DateTime picker.
+- **D-02:** Add a Datetime picker to the floating panel. The user will explicitly select when the trip begins, and all ELD calculations will be based off that chosen start time.
 
 ### Fuel Stop Logic
 - **D-03:** "Merge with rest" approach. The system will aim to insert fuel stops near the 1,000-mile mark but will dynamically snap them to coincide with the nearest mandatory 30-minute break or 10-hour sleeper berth period to simulate realistic, optimized truck routing.

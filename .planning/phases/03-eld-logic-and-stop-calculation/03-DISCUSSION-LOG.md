@@ -7,8 +7,8 @@
 
 **Area 2: Start Time**
 - *Options:* Assume "Now" vs. Datetime picker
-- *Selection:* Assume the trip starts "Now"
-- *Notes:* Keeps the UI simple for now.
+- *Selection:* Add a Datetime picker to the floating panel
+- *Notes:* User opted to allow exact start time selection rather than defaulting to "Now".
 
 **Area 3: Fuel Stops**
 - *Options:* Strict 1000 miles vs. Merge with rest
