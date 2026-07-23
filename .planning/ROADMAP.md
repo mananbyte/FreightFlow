@@ -44,3 +44,13 @@
 - Protect all trip endpoints and frontend routes behind auth guards.
 - Implement persistent login via localStorage JWT with automatic token refresh.
 
+
+### Phase 7: Make it on cloud, backend and frontend
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 6
+**Plans:** 0/1 plans executed
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 7 to break down)
