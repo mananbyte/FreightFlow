@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import LocationAutocomplete from './LocationAutocomplete';
 import './FloatingPanel.css';
 
-export default function FloatingPanel({ onSubmit, dailyLogs }) {
+export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLoggedIn, isLoading }) {
   const [current, setCurrent] = useState(() => JSON.parse(localStorage.getItem('ff_current') || '[]'));
   const [currentName, setCurrentName] = useState(() => localStorage.getItem('ff_currentName') || '');
   
@@ -72,8 +72,8 @@ export default function FloatingPanel({ onSubmit, dailyLogs }) {
             <input type="datetime-local" value={startTime} onChange={e => setStartTime(e.target.value)} />
           </div>
         </div>
-        <button type="submit" className="submit-btn">
-          <span>Calculate Route</span>
+        <button type="submit" className="submit-btn" disabled={isLoading}>
+          <span>{isLoading ? 'Calculating...' : 'Calculate Route'}</span>
         </button>
         {dailyLogs && dailyLogs.length > 0 && (
           <div className="route-success-banner">
@@ -93,6 +93,14 @@ export default function FloatingPanel({ onSubmit, dailyLogs }) {
             >
               <span>View ELD Log Sheet</span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </button>
+            <button 
+              type="button" 
+              className="premium-log-btn save-trip-btn"
+              onClick={onSaveTrip}
+            >
+              <span>{isLoggedIn ? 'Save Trip' : 'Sign in to save'}</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>
             </button>
           </div>
         )}
