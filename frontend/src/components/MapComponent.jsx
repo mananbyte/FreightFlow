@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, Marker, Popup, Polyline, ZoomControl } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, Polyline, ZoomControl, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
@@ -120,6 +120,29 @@ const formatDuration = (seconds) => {
   return `${m}m`;
 };
 
+function MapUpdater({ routeGeoJSON, events }) {
+  const map = useMap();
+  
+  React.useEffect(() => {
+    const coords = [];
+    if (routeGeoJSON && routeGeoJSON.routes) {
+      routeGeoJSON.routes[0].geometry.coordinates.forEach(c => coords.push([c[1], c[0]]));
+    }
+    if (events && events.length > 0) {
+      events.forEach(e => {
+        if (e.coordinates) coords.push([e.coordinates[1], e.coordinates[0]]);
+      });
+    }
+    if (coords.length > 0) {
+      const bounds = L.latLngBounds(coords);
+      // Extra padding to account for the left floating panel
+      map.fitBounds(bounds, { paddingBottomRight: [40, 40], paddingTopLeft: [440, 40], animate: true, duration: 1.5 });
+    }
+  }, [routeGeoJSON, events, map]);
+
+  return null;
+}
+
 export default function MapComponent({ routeGeoJSON, events }) {
   return (
     <MapContainer
@@ -130,6 +153,7 @@ export default function MapComponent({ routeGeoJSON, events }) {
     >
       <ZoomControl position="bottomright" />
       <TileLayer url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png" />
+      <MapUpdater routeGeoJSON={routeGeoJSON} events={events} />
 
       {routeGeoJSON && routeGeoJSON.routes && (
         <Polyline
