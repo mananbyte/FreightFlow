@@ -224,11 +224,15 @@ const Legend = () => {
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         {Object.entries(EVENT_META).filter(([_, meta]) => meta.show).map(([key, meta]) => (
           <div key={key} style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{
-              width: '14px', height: '14px', borderRadius: '50%',
-              background: meta.color, flexShrink: 0,
-              boxShadow: `0 0 0 2px white, 0 0 0 3px ${meta.color}`
-            }} />
+            <div style={{
+              width: '24px', height: '24px', borderRadius: '50%',
+              background: 'white', flexShrink: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxShadow: `0 1px 4px rgba(0,0,0,0.3), 0 0 0 1.5px ${meta.color}`,
+              position: 'relative'
+            }}>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="14px" height="14px" dangerouslySetInnerHTML={{ __html: getSvgPath(key).replace(/COLOR/g, meta.color) }} />
+            </div>
             <span style={{ fontSize: '13px', fontWeight: '500' }}>{meta.label}</span>
           </div>
         ))}
