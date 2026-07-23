@@ -40,13 +40,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
+  width: 46px;
   height: 34px;
   background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
   border-radius: 10px;
   color: white;
   box-shadow: 0 4px 10px rgba(0, 122, 255, 0.35);
   flex-shrink: 0;
+  padding: 0 4px;
 }
 
 .logo-text {
