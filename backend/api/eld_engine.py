@@ -16,6 +16,7 @@ def simulate_eld_events(route_steps, start_time_str, cycle_used_hours):
     
     accumulated_drive = 0
     accumulated_shift = 1 # 1 hour for pickup
+    accumulated_cycle = float(cycle_used_hours) + 1
     continuous_drive = 0
     miles_since_fuel = 0
     total_distance = 0
@@ -27,13 +28,31 @@ def simulate_eld_events(route_steps, start_time_str, cycle_used_hours):
         
         accumulated_drive += duration_hrs
         accumulated_shift += duration_hrs
+        accumulated_cycle += duration_hrs
         continuous_drive += duration_hrs
         miles_since_fuel += distance_miles
         total_distance += distance_miles
         current_time += datetime.timedelta(hours=duration_hrs)
         
+        # 70 hours cycle
+        if accumulated_cycle > 70:
+            events.append({
+                'event_type': 'rest_34h',
+                'timestamp': current_time.isoformat(),
+                'coordinates': step.get('maneuver', {}).get('location', [0,0]),
+                'distance_from_start': total_distance,
+                'duration': 122400
+            })
+            current_time += datetime.timedelta(hours=34)
+            accumulated_cycle = 0
+            accumulated_drive = 0
+            accumulated_shift = 0
+            continuous_drive = 0
+            if miles_since_fuel > 800:
+                 miles_since_fuel = 0 # fuel snapped
+            
         # 11 hours drive or 14 hours shift
-        if accumulated_drive > 11 or accumulated_shift > 14:
+        elif accumulated_drive > 11 or accumulated_shift > 14:
             events.append({
                 'event_type': 'rest_10h',
                 'timestamp': current_time.isoformat(),
@@ -72,6 +91,23 @@ def simulate_eld_events(route_steps, start_time_str, cycle_used_hours):
             })
             current_time += datetime.timedelta(minutes=30)
             accumulated_shift += 0.5
+            accumulated_cycle += 0.5
+            miles_since_fuel = 0
+            
+    if accumulated_cycle + 1 > 70:
+        events.append({
+            'event_type': 'rest_34h',
+            'timestamp': current_time.isoformat(),
+            'coordinates': route_steps[-1]['maneuver']['location'] if route_steps else [0,0],
+            'distance_from_start': total_distance,
+            'duration': 122400
+        })
+        current_time += datetime.timedelta(hours=34)
+        accumulated_cycle = 0
+        accumulated_drive = 0
+        accumulated_shift = 0
+        continuous_drive = 0
+        if miles_since_fuel > 800:
             miles_since_fuel = 0
             
     events.append({
