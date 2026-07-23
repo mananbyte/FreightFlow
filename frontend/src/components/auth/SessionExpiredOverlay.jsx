@@ -4,8 +4,10 @@ import './SessionExpiredOverlay.css'; // Let's add basic styles
 
 const SessionExpiredOverlay = () => {
     const [isVisible, setIsVisible] = useState(false);
+    const [isRegisterMode, setIsRegisterMode] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
 
@@ -17,19 +19,25 @@ const SessionExpiredOverlay = () => {
         return () => window.removeEventListener('session-expired', handleSessionExpired);
     }, []);
 
-    const handleLogin = async (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
         setError(null);
         try {
+            if (isRegisterMode) {
+                await client.post('/register/', { email, password, name });
+                // Automatically log in after register
+            }
             const res = await client.post('/token/', { username: email, password });
             localStorage.setItem('access_token', res.data.access);
             localStorage.setItem('refresh_token', res.data.refresh);
             setIsVisible(false);
             setEmail('');
             setPassword('');
+            setName('');
+            setIsRegisterMode(false);
         } catch (err) {
-            setError('Invalid credentials, please try again.');
+            setError(isRegisterMode ? 'Registration failed.' : 'Invalid credentials, please try again.');
         } finally {
             setIsLoading(false);
         }
@@ -40,12 +48,22 @@ const SessionExpiredOverlay = () => {
     return (
         <div className="session-overlay">
             <div className="session-modal glass-panel">
-                <h2>Session Expired</h2>
-                <p>Please log in again to continue where you left off.</p>
+                <h2>{isRegisterMode ? 'Create Account' : 'Sign In Required'}</h2>
+                <p>{isRegisterMode ? 'Sign up to save your trips.' : 'Please log in to save your trips.'}</p>
                 {error && <div className="error-msg">{error}</div>}
                 
-                <form onSubmit={handleLogin}>
-                    <div className="form-group">
+                <form onSubmit={handleSubmit}>
+                    {isRegisterMode && (
+                        <div className="form-group" style={{ marginBottom: '1rem' }}>
+                            <label>Name</label>
+                            <input 
+                                type="text" 
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </div>
+                    )}
+                    <div className="form-group" style={{ marginBottom: '1rem' }}>
                         <label>Email</label>
                         <input 
                             type="email" 
@@ -54,7 +72,7 @@ const SessionExpiredOverlay = () => {
                             onChange={e => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="form-group">
+                    <div className="form-group" style={{ marginBottom: '1.5rem' }}>
                         <label>Password</label>
                         <input 
                             type="password" 
@@ -64,9 +82,19 @@ const SessionExpiredOverlay = () => {
                         />
                     </div>
                     <button type="submit" disabled={isLoading} className="btn-primary w-full">
-                        {isLoading ? 'Logging in...' : 'Log In'}
+                        {isLoading ? 'Processing...' : (isRegisterMode ? 'Create Account' : 'Log In')}
                     </button>
                 </form>
+                <div style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.9rem' }}>
+                    <button type="button" onClick={() => setIsRegisterMode(!isRegisterMode)} style={{ background: 'none', border: 'none', color: 'var(--primary)', cursor: 'pointer', textDecoration: 'underline' }}>
+                        {isRegisterMode ? 'Already have an account? Log in' : "Don't have an account? Sign up"}
+                    </button>
+                </div>
+                <div style={{ marginTop: '0.5rem', textAlign: 'center', fontSize: '0.9rem' }}>
+                    <button type="button" onClick={() => setIsVisible(false)} style={{ background: 'none', border: 'none', color: 'var(--text-muted)', cursor: 'pointer' }}>
+                        Continue as Guest
+                    </button>
+                </div>
             </div>
         </div>
     );
