@@ -249,3 +249,44 @@
 @keyframes spin {
   to { transform: rotate(360deg); }
 }
+
+
+/* --- Guided Empty State (D-03) --- */
+.guided-empty-state {
+  padding: 64px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  animation: slideUpEmpty 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideUpEmpty {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.empty-illustration {
+  margin-bottom: 8px;
+  opacity: 0.95;
+}
+
+.calculate-first-route-btn {
+  margin-top: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px !important;
+  font-size: 16px !important;
+  text-decoration: none;
+  border-radius: 100px !important; /* Pill shape for premium feel */
+}
+
+.calculate-first-route-btn .arrow {
+  transition: transform 0.2s ease;
+  font-weight: bold;
+}
+
+.calculate-first-route-btn:hover .arrow {
+  transform: translateX(4px);
+}
