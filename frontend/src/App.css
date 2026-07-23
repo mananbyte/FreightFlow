@@ -32,9 +32,11 @@ body {
 /* Floating Panel with Apple Glassmorphism */
 .floating-panel {
   position: absolute;
-  top: 104px;
+  top: 24px;
   left: 24px;
   width: 360px;
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
   background: var(--surface);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);

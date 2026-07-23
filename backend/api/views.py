@@ -15,6 +15,9 @@ class RouteCalculateView(APIView):
         if not start_time:
             start_time = datetime.datetime.now().isoformat()
         current_cycle_used = float(request.data.get('current_cycle_used', 0))
+        cycle_limit = int(request.data.get('cycle_limit', 70))  # 60 or 70
+        if cycle_limit not in (60, 70):
+            cycle_limit = 70
         
         current_loc = request.data.get('current', [])
         pickup_loc = request.data.get('pickup', [])
@@ -41,7 +44,7 @@ class RouteCalculateView(APIView):
             
         # Pass legs to ELD engine so we can distinguish Current -> Pickup and Pickup -> Dropoff
         legs = osrm_data['routes'][0]['legs']
-        events_list = simulate_eld_events(legs, start_time, current_cycle_used)
+        events_list = simulate_eld_events(legs, start_time, current_cycle_used, cycle_limit)
         daily_logs = generate_daily_logs(events_list, start_time)
         
         return Response({

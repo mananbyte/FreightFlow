@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocationAutocomplete from './LocationAutocomplete';
+import './FloatingPanel.css';
 
 export default function FloatingPanel({ onSubmit, dailyLogs }) {
   const [current, setCurrent] = useState(() => JSON.parse(localStorage.getItem('ff_current') || '[]'));
@@ -77,10 +78,12 @@ export default function FloatingPanel({ onSubmit, dailyLogs }) {
         {dailyLogs && dailyLogs.length > 0 && (
           <div className="route-success-banner">
             <div className="success-info">
-              <div className="success-icon">✓</div>
-              <div>
+              <div className="success-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+              </div>
+              <div className="success-info-text">
                 <h4>Route Ready</h4>
-                <p>{dailyLogs.length} {dailyLogs.length === 1 ? 'day' : 'days'} of logs generated</p>
+                <p>{dailyLogs.length} {dailyLogs.length === 1 ? 'day' : 'days'} of logs securely generated</p>
               </div>
             </div>
             <button 

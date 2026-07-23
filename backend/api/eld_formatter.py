@@ -13,6 +13,8 @@ def generate_daily_logs(events, start_time_str):
     # Map event types to statuses
     status_map = {
         'current_location': 'on_duty',
+        'pre_trip': 'on_duty',
+        'post_trip': 'on_duty',
         'pickup': 'on_duty',
         'dropoff': 'on_duty',
         'fuel': 'on_duty',
