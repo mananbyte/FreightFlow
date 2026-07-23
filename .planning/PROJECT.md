@@ -12,7 +12,7 @@ Commercial truck drivers and fleet managers tracking property-carrying operation
 ## Requirements
 
 ### Validated
-(None yet — ship to validate)
+- ✓ High-quality UI/UX design — Phase 5
 
 ### Active
 - [ ] Take inputs: Current location, Pickup location, Dropoff location, Current Cycle Used (Hrs)
@@ -21,7 +21,6 @@ Commercial truck drivers and fleet managers tracking property-carrying operation
 - [ ] Apply property-carrying driver assumptions (70hrs/8days, no adverse conditions)
 - [ ] Account for fueling at least once every 1,000 miles
 - [ ] Account for 1 hour for pickup and drop-off
-- [ ] High-quality UI/UX design
 - [ ] Deploy live hosted version (e.g., Vercel)
 
 ### Out of Scope
@@ -36,6 +35,7 @@ Commercial truck drivers and fleet managers tracking property-carrying operation
 | Django Backend | Specified in assessment | — Pending |
 | React Frontend | Specified in assessment | — Pending |
 | Free Map API | Specified to keep costs 0 | — Pending |
+| Glassmorphism UI | Apple-style premium aesthetics | Phase 5 |
 
 ## Evolution
 
