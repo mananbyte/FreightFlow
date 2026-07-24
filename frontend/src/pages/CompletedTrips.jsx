@@ -144,7 +144,7 @@ export default function CompletedTrips() {
                   <>
                     <div className="route-point current">
                       <span className="route-dot current" />
-                      <span>{trip.current_location} <span style={{fontSize: '11px', color: '#007AFF', fontWeight: 'bold'}}>(End Location)</span></span>
+                      <span>{trip.current_location} <span style={{fontSize: '11px', color: '#007AFF', fontWeight: 'bold'}}>(Current)</span></span>
                     </div>
                     <div className="route-line" />
                   </>
