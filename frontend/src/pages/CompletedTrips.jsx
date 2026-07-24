@@ -139,7 +139,7 @@ export default function CompletedTrips() {
                 <button className="btn-secondary" onClick={() => handleViewLog(trip.id)}>
                   Log Sheet
                 </button>
-                <button className="btn-delete" onClick={() => handleDelete(trip.id)}>
+                <button className="btn-delete" onClick={() => handleDelete(trip.id)} style={{ gridColumn: 'span 2' }}>
                   Delete
                 </button>
               </div>

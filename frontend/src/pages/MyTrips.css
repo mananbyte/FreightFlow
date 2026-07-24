@@ -170,16 +170,16 @@
 
 /* ── Actions ─────────────────────────────────────────────────────────────────── */
 .trip-actions {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
   margin-top: auto;
 }
 
-.trip-actions .btn-primary,
-.trip-actions .btn-secondary {
-  flex: 1;
+.trip-actions button {
   font-size: 13px;
   padding: 9px 12px;
+  width: 100%;
 }
 
 .btn-delete {
