@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import FloatingPanel from '../components/FloatingPanel';
 import MapComponent from '../components/MapComponent';
-import Toast from '../components/Toast';
+import { showToast } from '../utils/ui';
 import client from '../api/client';
 import './Dashboard.css';
 
@@ -15,7 +15,6 @@ export default function Dashboard() {
   const [isSaving, setIsSaving] = useState(false);
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
   const [loadingText, setLoadingText] = useState('');
-  const [toastMessage, setToastMessage] = useState('');
 
   useEffect(() => {
     const sync = () => setIsLoggedIn(!!localStorage.getItem('access_token'));
@@ -65,7 +64,7 @@ export default function Dashboard() {
       });
     } catch (error) {
       if (error.response) {
-        setToastMessage('Routing failed: ' + (error.response.data.error || 'Unknown error'));
+        showToast('Routing failed: ' + (error.response.data.error || 'Unknown error'), 'error');
       } else {
         console.error('Error:', error);
       }
@@ -105,12 +104,12 @@ export default function Dashboard() {
         route_geojson: routeData.routeGeoJSON || {},
       });
       setShowSaveModal(false);
-      setToastMessage('Trip saved successfully!');
+      showToast('Trip saved successfully!', 'success');
       setRouteData({ routeGeoJSON: null, events: [], dailyLogs: [] });
       window.dispatchEvent(new Event('trip-saved'));
     } catch (err) {
       console.error(err);
-      setToastMessage('Failed to save trip');
+      showToast('Failed to save trip', 'error');
     } finally {
       setIsSaving(false);
     }
@@ -124,10 +123,8 @@ export default function Dashboard() {
         onSaveTrip={handleSaveClick}
         isLoggedIn={isLoggedIn}
         isLoading={isLoadingRoute}
-        onError={setToastMessage}
       />
       <MapComponent routeGeoJSON={routeData.routeGeoJSON} events={routeData.events} />
-      <Toast message={toastMessage} onClose={() => setToastMessage('')} />
 
       {/* Premium Glassmorphic Loading Overlay */}
       {isLoadingRoute && (
