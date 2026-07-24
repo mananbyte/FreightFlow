@@ -8,11 +8,11 @@ export default function ELDLogSheet({ day }) {
 
   // SVG dimensions snapped for crisp integer math
   const width = 1120; // graphWidth (960) + 160 padding
-  const height = 440; // graphHeight (240) + 200 padding
+  const height = 520; // graphHeight (240) + 280 padding
   const paddingLeft = 140;
   const paddingRight = 20;
   const paddingTop = 40;
-  const paddingBottom = 160;
+  const paddingBottom = 240;
   
   const graphWidth = width - paddingLeft - paddingRight;
   const graphHeight = height - paddingTop - paddingBottom;
@@ -181,7 +181,7 @@ export default function ELDLogSheet({ day }) {
         {/* REMARKS SECTION TITLE */}
         <text 
           x={paddingLeft - 20} 
-          y={330} 
+          y={335} 
           fill="#007AFF" 
           fontSize="15" 
           fontWeight="700" 
@@ -191,6 +191,26 @@ export default function ELDLogSheet({ day }) {
         >
           REMARKS
         </text>
+
+        {/* Remarks Section Timeline (Inverted Teeth) */}
+        <line x1={paddingLeft} y1={330} x2={width - paddingRight} y2={330} stroke="#1d1d1f" strokeWidth="1.5" />
+        {Array.from({ length: 25 }).map((_, h) => {
+          const x = paddingLeft + (h / 24) * graphWidth;
+          return (
+            <g key={`remark-tick-${h}`}>
+              {/* Hour tooth */}
+              <line x1={x} y1={330} x2={x} y2={340} stroke="#1d1d1f" strokeWidth="1.5" />
+              {/* 15 min teeth */}
+              {h < 24 && [1, 2, 3].map(q => {
+                const tickX = x + (q / 4) * (graphWidth / 24);
+                const tickLen = q === 2 ? 6 : 4; // half-hour slightly longer
+                return (
+                  <line key={`r-tick-${h}-${q}`} x1={tickX} y1={330} x2={tickX} y2={330 + tickLen} stroke="#1d1d1f" strokeWidth="1" />
+                );
+              })}
+            </g>
+          );
+        })}
 
         {/* Draw Angled Remarks Lines */}
         {intervals && intervals.map((interval, i) => {
@@ -202,8 +222,8 @@ export default function ELDLogSheet({ day }) {
           const startX = getX(interval.start_time);
           const endX = getX(interval.end_time);
           
-          // y starts safely below the timeline numbers (which are around y=304)
-          const yTop = 320; 
+          // y starts from the inverted timeline
+          const yTop = 330; 
           
           const getEventLabel = (type) => {
             switch (type) {
@@ -226,8 +246,8 @@ export default function ELDLogSheet({ day }) {
           
           const isBracket = (interval.event_type === 'pre_trip' || interval.event_type === 'post_trip');
 
-          // Ensure no overlap by staggering the drop based on 'i'
-          const dropLength = 10 + (i % 3) * 22;
+          // Deep 4-level stagger to completely prevent overlap when events are very close
+          const dropLength = 15 + (i % 4) * 24;
           const yMid = yTop + dropLength;
           const lineAngleLen = 25; // length of the angled segment
           
@@ -235,10 +255,10 @@ export default function ELDLogSheet({ day }) {
             const centerX = (startX + endX) / 2;
             return (
               <g key={`remark-${i}`}>
-                {/* Bracket |___| dropping slightly */}
-                <path d={`M ${startX} ${yTop-10} L ${startX} ${yTop} L ${endX} ${yTop} L ${endX} ${yTop-10}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                {/* Bracket |___| dropping slightly from timeline */}
+                <path d={`M ${startX} ${yTop} L ${startX} ${yTop+8} L ${endX} ${yTop+8} L ${endX} ${yTop}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
                 {/* Vertical drop from center of bracket */}
-                <path d={`M ${centerX} ${yTop} L ${centerX} ${yMid} L ${centerX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                <path d={`M ${centerX} ${yTop+8} L ${centerX} ${yMid} L ${centerX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
                 {/* Rotated text */}
                 <text 
                   x={centerX - lineAngleLen - 5} 
@@ -258,7 +278,7 @@ export default function ELDLogSheet({ day }) {
             // Normal event
             return (
               <g key={`remark-${i}`}>
-                <path d={`M ${startX} ${yTop-10} L ${startX} ${yMid} L ${startX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                <path d={`M ${startX} ${yTop} L ${startX} ${yMid} L ${startX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
                 <text 
                   x={startX - lineAngleLen - 5} 
                   y={yMid + lineAngleLen + 4} 
