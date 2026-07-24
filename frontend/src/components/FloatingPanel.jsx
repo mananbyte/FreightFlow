@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import LocationAutocomplete from './LocationAutocomplete';
+import { showToast } from '../utils/ui';
 import './FloatingPanel.css';
 
 export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLoggedIn, isLoading, onError }) {
@@ -58,7 +59,7 @@ export default function FloatingPanel({ onSubmit, dailyLogs, onSaveTrip, isLogge
     e.preventDefault();
     if (!current.length || !pickup.length || !dropoff.length) {
       if (onError) onError("Please select valid locations from the dropdowns.");
-      else alert("Please select valid locations from the dropdowns.");
+      else showToast("Please select valid locations from the dropdowns.");
       return;
     }
     onSubmit({ current, pickup, dropoff, cycleHours, startTime });

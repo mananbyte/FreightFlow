@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import client from '../api/client';
+import { showToast, showConfirm } from '../utils/ui';
 import './MyTrips.css';
 
 export default function CompletedTrips() {
@@ -28,7 +29,7 @@ export default function CompletedTrips() {
       const res = await client.get(`/trips/${tripId}/`);
       navigate('/log', { state: { dailyLogs: res.data.daily_logs_json } });
     } catch (err) {
-      alert('Failed to load trip details');
+      showToast('Failed to load trip details');
     }
   };
 
@@ -45,17 +46,19 @@ export default function CompletedTrips() {
         } 
       });
     } catch (err) {
-      alert('Failed to load map data');
+      showToast('Failed to load map data');
     }
   };
 
   const handleDelete = async (tripId) => {
-    if (!confirm('Delete this completed trip?')) return;
+    const confirmed = await showConfirm('Delete Completed Trip', 'Are you sure you want to delete this trip permanently?');
+    if (!confirmed) return;
     try {
       await client.delete(`/trips/${tripId}/`);
       setTrips((prev) => prev.filter((t) => t.id !== tripId));
+      showToast('Trip deleted permanently', 'success');
     } catch {
-      alert('Failed to delete trip');
+      showToast('Failed to delete trip');
     }
   };
 

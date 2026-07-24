@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import client from '../api/client';
+import { showToast, showConfirm } from '../utils/ui';
 import './MyTrips.css';
 
 export default function MyTrips() {
@@ -28,7 +29,7 @@ export default function MyTrips() {
       const res = await client.get(`/trips/${tripId}/`);
       navigate('/log', { state: { dailyLogs: res.data.daily_logs_json } });
     } catch (err) {
-      alert('Failed to load trip details');
+      showToast('Failed to load trip details');
     }
   };
 
@@ -45,17 +46,19 @@ export default function MyTrips() {
         } 
       });
     } catch (err) {
-      alert('Failed to load map data');
+      showToast('Failed to load map data');
     }
   };
 
   const handleDelete = async (tripId) => {
-    if (!confirm('Delete this trip?')) return;
+    const confirmed = await showConfirm('Delete Trip', 'Are you sure you want to delete this trip? This action cannot be undone.');
+    if (!confirmed) return;
     try {
       await client.delete(`/trips/${tripId}/`);
       setTrips((prev) => prev.filter((t) => t.id !== tripId));
+      showToast('Trip deleted successfully', 'success');
     } catch {
-      alert('Failed to delete trip');
+      showToast('Failed to delete trip');
     }
   };
 
@@ -69,10 +72,11 @@ export default function MyTrips() {
       setTimeout(() => {
         setTrips((prev) => prev.map(t => t.id === tripId ? { ...t, is_completed: true } : t));
         setCompletingTripId(null);
+        showToast('Trip completed!', 'success');
       }, 500);
     } catch {
       setCompletingTripId(null);
-      alert('Failed to mark trip as complete');
+      showToast('Failed to mark trip as complete');
     }
   };
 
