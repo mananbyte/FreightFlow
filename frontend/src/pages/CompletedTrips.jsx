@@ -76,9 +76,36 @@ export default function CompletedTrips() {
     <div className="my-trips-container">
       {/* Page header */}
       <div className="trips-page-header">
-        <div>
-          <h1>Completed Trips</h1>
-          <p className="trips-sub">{completedTrips.length} completed {completedTrips.length === 1 ? 'trip' : 'trips'}</p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <button 
+            onClick={() => navigate('/trips')} 
+            className="glass-panel"
+            style={{ 
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '36px',
+              height: '36px',
+              padding: '0',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              borderRadius: '50%', 
+              background: 'rgba(255, 255, 255, 0.05)',
+              color: 'var(--text-primary)', 
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+            onMouseOver={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.15)' }}
+            onMouseOut={(e) => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.05)' }}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+          </button>
+          <div>
+            <h1 style={{ margin: 0, fontSize: '28px', fontWeight: '700', letterSpacing: '-1px' }}>Completed Trips</h1>
+            <p className="trips-sub">{completedTrips.length} completed {completedTrips.length === 1 ? 'trip' : 'trips'}</p>
+          </div>
         </div>
         <div style={{ display: 'flex', gap: '12px' }}>
           <Link to="/trips" className="back-link new-route-btn">Back to Active Trips</Link>

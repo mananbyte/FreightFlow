@@ -81,7 +81,7 @@ class TripListCreateView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-class TripDetailView(generics.RetrieveDestroyAPIView):
+class TripDetailView(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
     serializer_class = TripDetailSerializer
 
