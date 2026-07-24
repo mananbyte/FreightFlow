@@ -140,23 +140,23 @@ export default function CompletedTrips() {
               </div>
 
               <div className="trip-route">
-                <div className="route-point from">
-                  <span className="route-dot origin" />
-                  <span>{trip.pickup}</span>
-                </div>
                 {trip.current_location && (
                   <>
-                    <div className="route-line" />
                     <div className="route-point current">
                       <span className="route-dot current" />
                       <span>{trip.current_location} <span style={{fontSize: '11px', color: '#007AFF', fontWeight: 'bold'}}>(End Location)</span></span>
                     </div>
+                    <div className="route-line" />
                   </>
                 )}
+                <div className="route-point from">
+                  <span className="route-dot origin" />
+                  <span>{trip.pickup} <span style={{fontSize: '11px', color: '#34C759', fontWeight: 'bold'}}>(Pickup)</span></span>
+                </div>
                 <div className="route-line" />
                 <div className="route-point to">
                   <span className="route-dot dest" />
-                  <span>{trip.dropoff}</span>
+                  <span>{trip.dropoff} <span style={{fontSize: '11px', color: '#FF3B30', fontWeight: 'bold'}}>(Dropoff)</span></span>
                 </div>
               </div>
 
