@@ -16,7 +16,7 @@ const EVENT_META = {
   rest_10h:         { color: '#2563EB', label: '10-Hr Sleeper Rest', show: true  },
   // Cycle reset — purple
   rest_34h:         { color: '#8B5CF6', label: '34-Hr Cycle Reset',  show: true  },
-  // Hidden from map — show in log sheet only
+  // Inspections are logged on the ELD sheet but hidden on map to prevent obscuring Rest markers
   pre_trip:         { color: '#6366F1', label: 'Pre-Trip Inspection',  show: false },
   post_trip:        { color: '#6366F1', label: 'Post-Trip Inspection', show: false },
 };
@@ -74,6 +74,13 @@ const getSvgPath = (type) => {
     case 'rest_34h':
       // Lightning bolt (restart)
       return `<polygon points="13,2 5,13 11,13 11,22 19,11 13,11" fill="COLOR" stroke="white" stroke-width="1.5"/>`;
+
+    case 'pre_trip':
+    case 'post_trip':
+      // Clipboard / Checklist icon
+      return `<rect x="6" y="4" width="12" height="16" rx="2" fill="COLOR" stroke="white" stroke-width="1.5"/>
+              <path d="M9 4V3C9 2.45 9.45 2 10 2h4c.55 0 1 .45 1 1v1M8 4h8" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+              <path d="M9 10h6M9 14h6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>`;
 
     default:
       return `<circle cx="12" cy="12" r="8" fill="COLOR" stroke="white" stroke-width="2"/>`;
