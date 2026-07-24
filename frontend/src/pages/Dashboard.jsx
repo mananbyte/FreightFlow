@@ -16,6 +16,8 @@ export default function Dashboard() {
   const [isLoadingRoute, setIsLoadingRoute] = useState(false);
   const [loadingText, setLoadingText] = useState('');
 
+  const [isSavedTrip, setIsSavedTrip] = useState(false);
+
   useEffect(() => {
     const sync = () => setIsLoggedIn(!!localStorage.getItem('access_token'));
     sync();
@@ -33,6 +35,7 @@ export default function Dashboard() {
         events: preloaded.events,
         dailyLogs: preloaded.dailyLogs,
       });
+      setIsSavedTrip(true);
       // Clear the state so a refresh doesn't re-apply
       window.history.replaceState({}, '');
     }
@@ -62,6 +65,7 @@ export default function Dashboard() {
         events: result.events,
         dailyLogs: result.dailyLogs || [],
       });
+      setIsSavedTrip(false);
     } catch (error) {
       if (error.response) {
         showToast('Routing failed: ' + (error.response.data.error || 'Unknown error'), 'error');
@@ -123,6 +127,7 @@ export default function Dashboard() {
         onSaveTrip={handleSaveClick}
         isLoggedIn={isLoggedIn}
         isLoading={isLoadingRoute}
+        isSavedTrip={isSavedTrip}
       />
       <MapComponent routeGeoJSON={routeData.routeGeoJSON} events={routeData.events} />
 
