@@ -290,3 +290,28 @@
 .calculate-first-route-btn:hover .arrow {
   transform: translateX(4px);
 }
+
+/* ── Animations ──────────────────────────────────────────────────────────────── */
+.trip-card.completing {
+  animation: completeTripAnim 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  pointer-events: none;
+  border-color: #34C759;
+}
+
+@keyframes completeTripAnim {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+    box-shadow: 0 0 0 rgba(52, 199, 89, 0);
+  }
+  40% {
+    transform: scale(1.03);
+    opacity: 1;
+    box-shadow: 0 0 24px rgba(52, 199, 89, 0.4);
+  }
+  100% {
+    transform: scale(0.9) translateY(-10px);
+    opacity: 0;
+    box-shadow: 0 0 40px rgba(52, 199, 89, 0);
+  }
+}

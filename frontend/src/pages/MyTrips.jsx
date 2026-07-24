@@ -59,11 +59,19 @@ export default function MyTrips() {
     }
   };
 
+  const [completingTripId, setCompletingTripId] = useState(null);
+
   const handleComplete = async (tripId) => {
     try {
+      setCompletingTripId(tripId);
       await client.patch(`/trips/${tripId}/`, { is_completed: true });
-      setTrips((prev) => prev.map(t => t.id === tripId ? { ...t, is_completed: true } : t));
+      // Wait for animation to finish before removing from DOM
+      setTimeout(() => {
+        setTrips((prev) => prev.map(t => t.id === tripId ? { ...t, is_completed: true } : t));
+        setCompletingTripId(null);
+      }, 500);
     } catch {
+      setCompletingTripId(null);
       alert('Failed to mark trip as complete');
     }
   };
@@ -156,7 +164,7 @@ export default function MyTrips() {
       ) : (
         <div className="trips-grid">
           {activeTrips.map((trip) => (
-            <div key={trip.id} className="trip-card glass-panel">
+            <div key={trip.id} className={`trip-card glass-panel ${completingTripId === trip.id ? 'completing' : ''}`}>
               <div className="trip-card-top">
                 <span className="trip-icon">🚛</span>
                 <div className="trip-title-wrap">
