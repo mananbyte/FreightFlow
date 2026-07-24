@@ -32,7 +32,14 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-q)!9+^n#_k+kn^^j7eb)9btpqw
 DEBUG = os.getenv('DEBUG', 'True').lower() in ('true', '1', 't')
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '*').split(',')
-CORS_ALLOWED_ORIGINS = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173').split(',')
+_cors_origins = os.getenv('CORS_ALLOWED_ORIGINS', 'http://localhost:5173')
+if _cors_origins == '*':
+    CORS_ALLOW_ALL_ORIGINS = True
+    CORS_ALLOWED_ORIGINS = []
+else:
+    CORS_ALLOW_ALL_ORIGINS = False
+    CORS_ALLOWED_ORIGINS = _cors_origins.split(',')
+
 ORS_API_KEY = os.getenv('ORS_API_KEY', '')
 
 REST_FRAMEWORK = {
