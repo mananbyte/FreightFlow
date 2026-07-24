@@ -1,75 +1,71 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Dashboard (Map Page) — Polished Responsive Layout
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
 .dashboard-container {
   width: 100vw;
-  height: 100vh;
+  height: 100svh;
   position: relative;
+  overflow: hidden;
 }
 
-/* Push the floating panel down to clear the navbar, but keep it high enough to show bottom curves */
-.floating-panel {
-  top: 76px !important;
-  max-height: calc(100vh - 92px) !important;
+/* Override floating panel position on dashboard */
+.dashboard-container .floating-panel {
+  top: calc(var(--navbar-h) + 24px) !important;
+  max-height: calc(100svh - var(--navbar-h) - 44px) !important;
 }
 
-/* ── Save Modal ─────────────────────────────────────────────────────────────── */
+/* ── Save Modal ──────────────────────────────────────────────────────────────── */
 .save-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.32);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 4000;
+  padding: var(--sp-4);
+  animation: fadeIn var(--t-fast) ease;
 }
 
 .save-modal-content {
-  padding: 2rem;
+  padding: var(--sp-8);
   width: 100%;
-  max-width: 420px;
+  max-width: 440px;
+  animation: scaleIn var(--t-base) var(--ease-spring);
 }
 
 .save-modal-content h2 {
-  margin: 0 0 4px;
-  font-size: 1.4rem;
-  font-weight: 700;
+  margin: 0 0 var(--sp-1);
+  font-size: 1.35rem;
+  font-weight: 800;
   letter-spacing: -0.5px;
   color: var(--text-main);
 }
 
 .modal-sub {
-  margin: 0 0 1.5rem;
-  font-size: 0.9rem;
+  margin: 0 0 var(--sp-6);
+  font-size: 13px;
   color: var(--text-muted);
 }
 
 .modal-actions {
   display: flex;
   justify-content: flex-end;
-  gap: 10px;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+  flex-wrap: wrap;
 }
 
-.btn-secondary {
-  background: rgba(0, 0, 0, 0.06);
-  color: var(--text-main);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  padding: 10px 20px;
-  border-radius: 12px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-/* ── Route Loading Overlay ──────────────────────────────────────────────────── */
+/* ── Route Loading Overlay ───────────────────────────────────────────────────── */
 .route-loading-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(12px);
+  background: rgba(210,225,255,0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -80,40 +76,39 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 40px;
-  width: 320px;
+  padding: var(--sp-10);
+  width: min(340px, calc(100vw - 48px));
   text-align: center;
-  animation: float-in 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  animation: scaleIn 0.4s var(--ease-spring);
 }
 
 .loader-truck {
-  margin-bottom: 24px;
-  filter: drop-shadow(0 8px 24px rgba(0, 122, 255, 0.4));
+  margin-bottom: var(--sp-6);
+  filter: drop-shadow(0 10px 28px rgba(0,122,255,0.38));
 }
 
-.loading-text-container {
-  width: 100%;
-}
+.loading-text-container { width: 100%; }
 
 .loading-title {
   font-size: 18px;
   font-weight: 700;
+  letter-spacing: -0.3px;
   color: var(--text-main);
-  margin: 0 0 6px;
+  margin: 0 0 var(--sp-2);
 }
 
 .loading-subtitle {
   font-size: 13px;
   color: var(--text-muted);
-  margin: 0 0 20px;
-  height: 18px;
+  margin: 0 0 var(--sp-5);
+  min-height: 20px;
 }
 
 .progress-bar {
   width: 100%;
-  height: 6px;
-  background: rgba(0, 0, 0, 0.05);
-  border-radius: 99px;
+  height: 5px;
+  background: rgba(0,0,0,0.06);
+  border-radius: var(--r-pill);
   overflow: hidden;
   position: relative;
 }
@@ -123,32 +118,39 @@
   top: 0;
   left: 0;
   height: 100%;
-  background: var(--primary);
-  border-radius: 99px;
-  animation: loading-progress 2.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
-}
-
-@keyframes float-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
+  background: linear-gradient(90deg, var(--primary), #5ac8fa);
+  border-radius: var(--r-pill);
+  animation: loading-progress 2.2s var(--ease-smooth) infinite;
 }
 
 @keyframes loading-progress {
-  0% {
-    width: 0%;
-    transform: translateX(-100%);
+  0%   { width: 0%;   transform: translateX(-100%); }
+  50%  { width: 55%; }
+  100% { width: 100%; transform: translateX(200%); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+  /* On mobile, the floating panel is a bottom sheet from App.css */
+  /* Just ensure the map takes up full height */
+  .dashboard-container .floating-panel {
+    top: auto !important;
+    max-height: 78svh !important;
   }
-  50% {
-    width: 50%;
+
+  .loading-card {
+    padding: var(--sp-8) var(--sp-6);
   }
-  100% {
+
+  .modal-actions {
+    justify-content: stretch;
+    flex-direction: column-reverse;
+  }
+
+  .modal-actions button {
     width: 100%;
-    transform: translateX(200%);
   }
 }

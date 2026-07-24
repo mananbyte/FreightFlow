@@ -1,135 +1,103 @@
-/* Overrides for FloatingPanel specific elements, using global App.css vars where possible */
-.floating-panel {
-  /* Let App.css handle the container */
-}
+/* ═══════════════════════════════════════════════════════════════════════════════
+   FloatingPanel — Route Calculator Panel Styles
+   ═══════════════════════════════════════════════════════════════════════════════ */
 
+/* Panel title */
 .panel-title {
-  margin: 0 0 24px 0;
-  font-size: 22px;
-  font-weight: 700;
+  font-size: 1.15rem;
+  font-weight: 800;
   letter-spacing: -0.5px;
   color: var(--text-main);
+  margin: 0;
+  line-height: 1.2;
 }
 
-.panel-form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-group label {
-  font-size: 13px;
-  font-weight: 600;
+/* Form label style override for floating panel */
+.floating-panel .form-group label {
+  font-size: 11px;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
-.row-group {
-  display: flex;
-  flex-direction: row;
-  gap: 12px;
-}
-
-.row-group .form-field {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.form-field input {
-  width: 100%;
-  padding: 12px 16px;
-  background: rgba(255, 255, 255, 0.8);
-  border: 1px solid rgba(0, 0, 0, 0.05);
-  border-radius: 12px;
-  font-size: 15px;
-  box-sizing: border-box;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
-}
-
-.form-field input:focus {
-  outline: none;
-  background: #ffffff;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.15);
-}
-
+/* ── Calculate Button ─────────────────────────────────────────────────────────── */
 .calculate-btn {
-  margin-top: 12px;
-  background-color: var(--text-main);
-  color: white;
+  margin-top: var(--sp-2);
+  width: 100%;
+  background: var(--text-main);
+  color: #fff;
   border: none;
-  border-radius: 14px;
-  padding: 14px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: var(--r-md);
+  padding: 15px;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  letter-spacing: -0.2px;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: background var(--t-fast) ease, transform var(--t-fast) var(--ease-spring), box-shadow var(--t-fast) ease;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.18);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .calculate-btn:hover {
-  background-color: #000000;
+  background: #111;
   transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .calculate-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
 }
 
+.calculate-btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── Route Success Banner ─────────────────────────────────────────────────────── */
 .route-success-banner {
-  margin-top: 8px;
-  background: rgba(255, 255, 255, 0.5);
+  margin-top: var(--sp-2);
+  background: rgba(255,255,255,0.65);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  border-radius: 18px;
-  padding: 16px;
+  border: 1px solid rgba(255,255,255,0.90);
+  border-radius: var(--r-lg);
+  padding: var(--sp-4);
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 1);
+  gap: var(--sp-4);
+  animation: slideUp 0.45s var(--ease-out);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.07), inset 0 1px 0 rgba(255,255,255,1);
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
+/* ── Success Info Row ─────────────────────────────────────────────────────────── */
 .success-info {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: var(--sp-4);
 }
 
 .success-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 42px;
+  height: 42px;
+  flex-shrink: 0;
   background: linear-gradient(135deg, #34C759 0%, #30B0C7 100%);
-  color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+  color: #fff;
+  border-radius: var(--r-sm);
+  box-shadow: 0 4px 12px rgba(52,199,89,0.32);
+  font-size: 18px;
 }
 
 .success-info-text {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  min-width: 0;
 }
 
 .success-info-text h4 {
@@ -138,6 +106,9 @@
   font-weight: 700;
   color: var(--text-main);
   letter-spacing: -0.3px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .success-info-text p {
@@ -147,75 +118,79 @@
   font-weight: 500;
 }
 
+/* ── Premium Log Button ───────────────────────────────────────────────────────── */
 .premium-log-btn {
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--sp-2);
   background: linear-gradient(135deg, #007AFF 0%, #00C6FF 100%);
-  color: white;
+  color: #fff;
   border: none;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   padding: 14px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
+  font-family: inherit;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  box-shadow: 0 8px 24px rgba(0, 122, 255, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: transform var(--t-fast) var(--ease-spring), box-shadow var(--t-fast) ease, filter var(--t-fast) ease;
+  box-shadow: 0 8px 24px rgba(0,122,255,0.35), inset 0 1px 0 rgba(255,255,255,0.3);
+  -webkit-tap-highlight-color: transparent;
 }
 
 .premium-log-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 122, 255, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  filter: brightness(1.05);
+  box-shadow: 0 12px 32px rgba(0,122,255,0.45), inset 0 1px 0 rgba(255,255,255,0.4);
+  filter: brightness(1.06);
 }
 
-.premium-log-btn:active {
-  transform: translateY(1px);
-  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
+.premium-log-btn:active { transform: translateY(0); }
 
 .premium-log-btn svg {
-  transition: transform 0.3s ease;
+  transition: transform var(--t-base) ease;
 }
 
 .premium-log-btn:hover svg {
   transform: translateX(4px);
 }
 
+/* ── Save Trip Button ─────────────────────────────────────────────────────────── */
 .save-trip-btn {
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255,255,255,0.75);
   color: var(--text-main);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.09);
+  border: 1px solid rgba(255,255,255,0.95);
 }
 
 .save-trip-btn:hover {
-  background: #ffffff;
+  background: #fff;
   color: var(--primary);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.13);
 }
 
 .save-trip-btn svg {
-  transition: transform 0.3s ease;
+  transition: transform var(--t-base) ease;
 }
 
 .save-trip-btn:hover svg {
   transform: translateY(-2px);
 }
 
-
+/* ── Mobile drag handle (visual affordance) ──────────────────────────────────── */
 .drag-handle {
   display: none;
-  width: 48px;
-  height: 5px;
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 10px;
-  margin: -12px auto 16px;
+  width: 40px;
+  height: 4px;
+  background: rgba(0,0,0,0.15);
+  border-radius: 4px;
+  margin: -4px auto var(--sp-3);
 }
 
 @media (max-width: 768px) {
-  .drag-handle {
-    display: block;
-  }
+  .drag-handle { display: block; }
+
+  .calculate-btn { font-size: 14px; padding: 14px; }
+
+  .premium-log-btn { font-size: 14px; }
 }
