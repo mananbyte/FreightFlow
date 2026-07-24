@@ -83,20 +83,18 @@ export default function RouteSeoPage() {
         <meta property="og:description" content={`Plan your commercial freight route from ${routeData.origin} to ${routeData.destination} with FreightFlow's ELD calculator.`} />
         
         {/* JSON-LD Schema for the specific route */}
-        <script type="application/ld+json">
-          {\`
-            {
-              "@context": "https://schema.org",
-              "@type": "WebPage",
-              "name": "Commercial Truck Route: \${routeData.origin} to \${routeData.destination}",
-              "description": "Truck trip calculation for \${routeData.origin} to \${routeData.destination} including \${routeData.mileage} miles and ELD planning.",
-              "provider": {
-                "@type": "Organization",
-                "name": "FreightFlow"
-              }
+        <script type="application/ld+json" dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": `Commercial Truck Route: ${routeData.origin} to ${routeData.destination}`,
+            "description": `Truck trip calculation for ${routeData.origin} to ${routeData.destination} including ${routeData.mileage} miles and ELD planning.`,
+            "provider": {
+              "@type": "Organization",
+              "name": "FreightFlow"
             }
-          \`}
-        </script>
+          })
+        }} />
       </Helmet>
 
       {/* 2. Optimized H1 Header */}
@@ -177,7 +175,7 @@ export default function RouteSeoPage() {
           <h3>Popular Related Routes</h3>
           <div className="related-links">
             {routeData.related.map(slug => (
-              <Link key={slug} to={\`/route/\${slug}-truck-route\`} className="related-link-card glass-panel">
+              <Link key={slug} to={`/route/${slug}-truck-route`} className="related-link-card glass-panel">
                 <span>📍</span> {formatSlugToTitle(slug.replace('-truck-route', ''))}
               </Link>
             ))}
