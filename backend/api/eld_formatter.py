@@ -56,7 +56,8 @@ def generate_daily_logs(events, start_time_str):
             'start_time': event_time,
             'end_time': event_end,
             'status': status_map.get(event['event_type'], 'on_duty'),
-            'event_type': event['event_type']
+            'event_type': event['event_type'],
+            'coordinates': event.get('coordinates', None)
         })
         current_time = event_end
         
@@ -89,7 +90,8 @@ def generate_daily_logs(events, start_time_str):
                     'start_time': st.isoformat(),
                     'end_time': chunk_end.isoformat(),
                     'status': interval['status'],
-                    'event_type': interval['event_type']
+                    'event_type': interval['event_type'],
+                    'coordinates': interval.get('coordinates', None)
                 })
             st = chunk_end
             

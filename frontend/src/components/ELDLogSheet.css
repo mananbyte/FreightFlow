@@ -24,3 +24,36 @@
   filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05));
 }
 
+.eld-remarks-section {
+  margin-top: 32px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.eld-remarks-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.eld-remarks-table th {
+  background: rgba(0, 0, 0, 0.03);
+  padding: 12px 20px;
+  font-weight: 600;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border);
+}
+
+.eld-remarks-table td {
+  padding: 12px 20px;
+  color: var(--text-main);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.eld-remarks-table tr:last-child td {
+  border-bottom: none;
+}
+

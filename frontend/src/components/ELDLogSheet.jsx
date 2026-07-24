@@ -8,11 +8,11 @@ export default function ELDLogSheet({ day }) {
 
   // SVG dimensions snapped for crisp integer math
   const width = 1120; // graphWidth (960) + 160 padding
-  const height = 320; // graphHeight (240) + 80 padding
+  const height = 440; // graphHeight (240) + 200 padding
   const paddingLeft = 140;
   const paddingRight = 20;
   const paddingTop = 40;
-  const paddingBottom = 40;
+  const paddingBottom = 160;
   
   const graphWidth = width - paddingLeft - paddingRight;
   const graphHeight = height - paddingTop - paddingBottom;
@@ -177,6 +177,104 @@ export default function ELDLogSheet({ day }) {
             />
           </>
         )}
+
+        {/* REMARKS SECTION TITLE */}
+        <text 
+          x={paddingLeft - 20} 
+          y={330} 
+          fill="#007AFF" 
+          fontSize="15" 
+          fontWeight="700" 
+          fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif" 
+          textAnchor="end"
+          opacity="0.9"
+        >
+          REMARKS
+        </text>
+
+        {/* Draw Angled Remarks Lines */}
+        {intervals && intervals.map((interval, i) => {
+          const validEvents = ['pre_trip', 'post_trip', 'pickup', 'dropoff', 'fuel', 'break_30m', 'rest_10h', 'rest_34h', 'rest_2h', 'rest_8h'];
+          if (!validEvents.includes(interval.event_type) && !interval.coordinates) {
+            return null;
+          }
+
+          const startX = getX(interval.start_time);
+          const endX = getX(interval.end_time);
+          
+          // y starts safely below the timeline numbers (which are around y=304)
+          const yTop = 320; 
+          
+          const getEventLabel = (type) => {
+            switch (type) {
+              case 'pre_trip': return 'Pre-Trip/TIV';
+              case 'post_trip': return 'Post-Trip/TIV';
+              case 'pickup': return 'Pickup';
+              case 'dropoff': return 'Delivery';
+              case 'fuel': return 'Fuel Stop';
+              case 'break_30m': return '30m Break';
+              case 'rest_10h': return '10h Rest';
+              case 'rest_34h': return '34h Restart';
+              case 'rest_2h': return '2h Split';
+              case 'rest_8h': return '8h Split';
+              default: return type.replace('_', ' ');
+            }
+          };
+          
+          const remarkStr = getEventLabel(interval.event_type);
+          const locStr = interval.coordinates ? `${interval.coordinates[1].toFixed(2)}, ${interval.coordinates[0].toFixed(2)}` : '';
+          
+          const isBracket = (interval.event_type === 'pre_trip' || interval.event_type === 'post_trip');
+
+          // Ensure no overlap by staggering the drop based on 'i'
+          const dropLength = 10 + (i % 3) * 22;
+          const yMid = yTop + dropLength;
+          const lineAngleLen = 25; // length of the angled segment
+          
+          if (isBracket) {
+            const centerX = (startX + endX) / 2;
+            return (
+              <g key={`remark-${i}`}>
+                {/* Bracket |___| dropping slightly */}
+                <path d={`M ${startX} ${yTop-10} L ${startX} ${yTop} L ${endX} ${yTop} L ${endX} ${yTop-10}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                {/* Vertical drop from center of bracket */}
+                <path d={`M ${centerX} ${yTop} L ${centerX} ${yMid} L ${centerX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                {/* Rotated text */}
+                <text 
+                  x={centerX - lineAngleLen - 5} 
+                  y={yMid + lineAngleLen + 4} 
+                  fill="#374151" 
+                  fontSize="11" 
+                  fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" 
+                  fontWeight="600"
+                  transform={`rotate(-45 ${centerX - lineAngleLen - 5} ${yMid + lineAngleLen + 4})`}
+                  textAnchor="end"
+                >
+                  {locStr ? `${locStr} • ` : ''}{remarkStr}
+                </text>
+              </g>
+            );
+          } else {
+            // Normal event
+            return (
+              <g key={`remark-${i}`}>
+                <path d={`M ${startX} ${yTop-10} L ${startX} ${yMid} L ${startX - lineAngleLen} ${yMid + lineAngleLen}`} fill="none" stroke="#6B7280" strokeWidth="1.5" />
+                <text 
+                  x={startX - lineAngleLen - 5} 
+                  y={yMid + lineAngleLen + 4} 
+                  fill="#374151" 
+                  fontSize="11" 
+                  fontFamily="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" 
+                  fontWeight="600"
+                  transform={`rotate(-45 ${startX - lineAngleLen - 5} ${yMid + lineAngleLen + 4})`}
+                  textAnchor="end"
+                >
+                  {locStr ? `${locStr} • ` : ''}{remarkStr}
+                </text>
+              </g>
+            );
+          }
+        })}
       </svg>
     </div>
   );
