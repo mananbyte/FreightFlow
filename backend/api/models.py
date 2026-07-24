@@ -14,6 +14,7 @@ class Trip(models.Model):
     events_json = models.JSONField(default=list)
     daily_logs_json = models.JSONField(default=list)
     route_geojson = models.JSONField(default=dict)
+    is_completed = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-created_at']

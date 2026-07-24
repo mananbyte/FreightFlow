@@ -26,7 +26,7 @@ class TripListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Trip
-        fields = ('id', 'name', 'pickup', 'dropoff', 'current_location', 'created_at', 'log_days', 'cycle_hours_used')
+        fields = ('id', 'name', 'pickup', 'dropoff', 'current_location', 'created_at', 'log_days', 'cycle_hours_used', 'is_completed')
 
     def get_log_days(self, obj):
         return len(obj.daily_logs_json) if obj.daily_logs_json else 0
