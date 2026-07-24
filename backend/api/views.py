@@ -45,8 +45,14 @@ class RouteCalculateView(APIView):
             resp = requests.get(osrm_url)
             resp.raise_for_status()
             osrm_data = resp.json()
+        except requests.exceptions.HTTPError as e:
+            if e.response.status_code == 400:
+                return Response({"error": "No driving route found between these locations. They may be too far apart or separated by an ocean."}, status=400)
+            return Response({"error": f"Routing service returned an error ({e.response.status_code}). Please try again later."}, status=500)
+        except requests.exceptions.RequestException:
+            return Response({"error": "Failed to connect to the routing service. Please check your connection and try again."}, status=500)
         except Exception as e:
-            return Response({"error": f"OSRM request failed: {str(e)}"}, status=500)
+            return Response({"error": "An unexpected error occurred while calculating the route."}, status=500)
             
         if osrm_data.get("code") != "Ok":
             return Response({"error": "OSRM returned no route"}, status=400)
