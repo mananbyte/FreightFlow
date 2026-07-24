@@ -144,6 +144,15 @@ export default function CompletedTrips() {
                   <span className="route-dot origin" />
                   <span>{trip.pickup}</span>
                 </div>
+                {trip.current_location && (
+                  <>
+                    <div className="route-line" />
+                    <div className="route-point current">
+                      <span className="route-dot current" />
+                      <span>{trip.current_location} <span style={{fontSize: '11px', color: '#007AFF', fontWeight: 'bold'}}>(End Location)</span></span>
+                    </div>
+                  </>
+                )}
                 <div className="route-line" />
                 <div className="route-point to">
                   <span className="route-dot dest" />
